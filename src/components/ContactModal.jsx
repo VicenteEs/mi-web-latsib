@@ -96,8 +96,8 @@ export default function ContactModal({ isOpen, onClose }) {
     // Key 1: latsibutem@gmail.com
     // Key 2: rcaulier@utem.cl
     // ─────────────────────────────────────────────────────────────────
-    const KEY_LATSIB = '52fff220-4e6e-4c4f-bc0c-3c785536a88e';
-    const KEY_RCAULIER = 'd9f6ec50-6190-4f6e-890c-2ebc189db655';
+    const KEY_LATSIB = import.meta.env.VITE_WEB3FORMS_KEY_LATSIB || '52fff220-4e6e-4c4f-bc0c-3c785536a88e';
+    const KEY_RCAULIER = import.meta.env.VITE_WEB3FORMS_KEY_RCAULIER || 'd9f6ec50-6190-4f6e-890c-2ebc189db655';
 
     const basePayload = {
       subject: `Nuevo Contacto LaTSIB: ${motivoFinal} - ${formData.nombre.trim()}`,
