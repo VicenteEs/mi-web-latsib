@@ -675,7 +675,6 @@ function AppContent() {
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
 
@@ -805,7 +804,6 @@ function AppContent() {
 
   const scrollToSection = (id) => {
     setMobileMenuOpen(false);
-    setSideDrawerOpen(false);
     if (id === 'what-we-do') { navigateTo('what-we-do'); return; }
     if (id === 'all-activities') { navigateTo('activities-list'); return; }
     if (id === 'all-research') { navigateTo('research-list'); return; }
@@ -843,19 +841,6 @@ function AppContent() {
       <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled || route.view !== 'landing' ? 'bg-white/95 backdrop-blur-md shadow-md py-3' : 'bg-transparent py-5'}`}>
         <div className="container mx-auto px-6 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => setSideDrawerOpen(true)}
-              className={`p-2 rounded-xl transition-all cursor-pointer ${
-                isScrolled || route.view !== 'landing'
-                  ? 'text-slate-700 hover:bg-slate-100 hover:text-blue-600'
-                  : 'text-white hover:bg-white/10'
-              }`}
-              aria-label="Abrir menú de navegación"
-              title="Menú"
-            >
-              <Menu size={24} />
-            </button>
             <div
               className="flex items-center gap-2.5 sm:gap-3.5 cursor-pointer select-none group min-w-0"
               onClick={() => { navigateTo('landing'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
@@ -910,131 +895,6 @@ function AppContent() {
           </div>
         )}
       </nav>
-
-      {/* MENÚ LATERAL DESLIZANTE */}
-      {sideDrawerOpen && (
-        <div className="fixed inset-0 z-[120] flex">
-          <div
-            className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity duration-300 animate-in fade-in"
-            onClick={() => setSideDrawerOpen(false)}
-          />
-          <div className="relative w-full max-w-xs sm:max-w-sm bg-white h-full shadow-2xl z-10 flex flex-col p-6 animate-in slide-in-from-left duration-300 border-r border-slate-100">
-            <div className="flex items-center justify-between pb-5 border-b border-slate-100 mb-6">
-              <div
-                className="flex items-center gap-3 cursor-pointer"
-                onClick={() => { setSideDrawerOpen(false); navigateTo('landing'); }}
-              >
-                <img src={utemLogo} alt="Logo UTEM" className="h-12 w-auto object-contain shrink-0" />
-                <img src={config?.imagenes?.logo || '/logo-circle.png'} alt="Logo LaTSIB" className="h-10 w-10 object-contain" />
-                <div>
-                  <span className="font-extrabold text-xl text-slate-900 tracking-tight block leading-tight">{config.nombreGrupo}</span>
-                  <span className="text-[10px] text-slate-400 font-medium">Laboratorio LaTSIB · UTEM</span>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setSideDrawerOpen(false)}
-                className="p-2 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
-                aria-label="Cerrar menú lateral"
-              >
-                <X size={20} />
-              </button>
-            </div>
-
-            <div className="flex flex-col gap-1.5 flex-grow overflow-y-auto pr-1">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 mb-1">Navegación</p>
-              
-              <button
-                type="button"
-                onClick={() => { setSideDrawerOpen(false); scrollToSection('about'); }}
-                className="flex items-center gap-3.5 px-3.5 py-3 text-left rounded-xl text-slate-700 hover:text-blue-600 hover:bg-blue-50/70 font-semibold text-sm transition-all cursor-pointer group"
-              >
-                <div className="p-1.5 rounded-lg bg-slate-100 text-slate-600 group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">
-                  <Info size={16} />
-                </div>
-                <span>Nosotros</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => { setSideDrawerOpen(false); navigateTo('what-we-do'); }}
-                className="flex items-center gap-3.5 px-3.5 py-3 text-left rounded-xl text-slate-700 hover:text-blue-600 hover:bg-blue-50/70 font-semibold text-sm transition-all cursor-pointer group"
-              >
-                <div className="p-1.5 rounded-lg bg-teal-50 text-teal-600 group-hover:bg-teal-100 group-hover:text-teal-700 transition-colors">
-                  <Atom size={16} />
-                </div>
-                <span>¿Qué Hacemos?</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => { setSideDrawerOpen(false); scrollToSection('research'); }}
-                className="flex items-center gap-3.5 px-3.5 py-3 text-left rounded-xl text-slate-700 hover:text-blue-600 hover:bg-blue-50/70 font-semibold text-sm transition-all cursor-pointer group"
-              >
-                <div className="p-1.5 rounded-lg bg-indigo-50 text-indigo-600 group-hover:bg-indigo-100 group-hover:text-indigo-700 transition-colors">
-                  <Cpu size={16} />
-                </div>
-                <span>Líneas de Investigación</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => { setSideDrawerOpen(false); scrollToSection('activities'); }}
-                className="flex items-center gap-3.5 px-3.5 py-3 text-left rounded-xl text-slate-700 hover:text-blue-600 hover:bg-blue-50/70 font-semibold text-sm transition-all cursor-pointer group"
-              >
-                <div className="p-1.5 rounded-lg bg-amber-50 text-amber-600 group-hover:bg-amber-100 group-hover:text-amber-700 transition-colors">
-                  <Calendar size={16} />
-                </div>
-                <span>Actividades y Congresos</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => { setSideDrawerOpen(false); scrollToSection('team'); }}
-                className="flex items-center gap-3.5 px-3.5 py-3 text-left rounded-xl text-slate-700 hover:text-blue-600 hover:bg-blue-50/70 font-semibold text-sm transition-all cursor-pointer group"
-              >
-                <div className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 group-hover:bg-emerald-100 group-hover:text-emerald-700 transition-colors">
-                  <Users size={16} />
-                </div>
-                <span>Equipo</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => { setSideDrawerOpen(false); scrollToSection('publications'); }}
-                className="flex items-center gap-3.5 px-3.5 py-3 text-left rounded-xl text-slate-700 hover:text-blue-600 hover:bg-blue-50/70 font-semibold text-sm transition-all cursor-pointer group"
-              >
-                <div className="p-1.5 rounded-lg bg-purple-50 text-purple-600 group-hover:bg-purple-100 group-hover:text-purple-700 transition-colors">
-                  <BookOpen size={16} />
-                </div>
-                <span>Publicaciones</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => { setSideDrawerOpen(false); navigateTo('legal', 'privacidad'); }}
-                className="flex items-center gap-3.5 px-3.5 py-3 text-left rounded-xl text-slate-700 hover:text-blue-600 hover:bg-blue-50/70 font-semibold text-sm transition-all cursor-pointer group"
-              >
-                <div className="p-1.5 rounded-lg bg-slate-100 text-slate-600 group-hover:bg-blue-100 group-hover:text-blue-700 transition-colors">
-                  <Shield size={16} />
-                </div>
-                <span>Privacidad y Legal (Ley 21.719)</span>
-              </button>
-            </div>
-
-            <div className="pt-4 border-t border-slate-100 mt-auto">
-              <button
-                type="button"
-                onClick={() => { setSideDrawerOpen(false); setIsContactModalOpen(true); }}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 transition-colors shadow-sm cursor-pointer"
-              >
-                <Mail size={16} /> Contactar al Laboratorio
-              </button>
-              <p className="text-center text-xs text-slate-400 mt-3">{config.email}</p>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* --- RENDERIZADO CONDICIONAL DE VISTAS PÚBLICAS --- */}
 
@@ -1595,9 +1455,10 @@ function AppContent() {
             </div>
           </section>
 
-          {/* FOOTER CON ACCESO DISCRETO A ADMINISTRACIÓN */}
+          {/* FOOTER CON INFORMACIÓN INSTITUCIONAL Y MARCO LEGAL */}
           <footer id="contact" className="bg-slate-900 text-slate-300 py-16">
-            <div className="container mx-auto px-6 grid md:grid-cols-3 gap-12">
+            <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+              {/* COLUMNA 1: GRUPO LATSIB */}
               <div>
                 <div className="flex items-center gap-2 text-white font-bold text-2xl mb-4">
                   <img src={config.imagenes.logo} alt="Logo" className="h-8 w-8 object-cover rounded-full" />
@@ -1626,6 +1487,8 @@ function AppContent() {
                   </a>
                 </div>
               </div>
+
+              {/* COLUMNA 2: CONTACTO */}
               <div>
                 <h4 className="text-white font-bold text-lg mb-6">Contacto</h4>
                 <ul className="space-y-4">
@@ -1638,60 +1501,85 @@ function AppContent() {
                     <a href={`mailto:${config.email}`} className="text-sm hover:text-white transition-colors">{config.email}</a>
                   </li>
                 </ul>
+                <div className="mt-6">
+                  <button
+                    type="button"
+                    onClick={() => setIsContactModalOpen(true)}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold transition-colors cursor-pointer shadow-sm"
+                  >
+                    <Mail size={14} /> Formulario de Contacto
+                  </button>
+                </div>
               </div>
+
+              {/* COLUMNA 3: ENLACES DE INTERÉS */}
               <div>
                 <h4 className="text-white font-bold text-lg mb-6">Enlaces de Interés</h4>
-                <ul className="space-y-2 text-sm">
+                <ul className="space-y-2.5 text-sm">
                   <li><a href="https://www.utem.cl" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">Universidad Tecnológica Metropolitana</a></li>
                   <li><a href="https://www.anid.cl" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">ANID Chile</a></li>
                   <li><a href="https://postgrado.utem.cl" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">Postulaciones a Magíster</a></li>
-                  <li><a href="https://noticias.utem.cl/2026/07/21/seminarios-de-ingenieria-civil-biomedica-utem-impulsan-uso-de-ia/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">Noticia seminarios de ingeniería civil biomédica UTEM</a></li>
+                  <li><a href="https://noticias.utem.cl/2026/07/21/seminarios-de-ingenieria-civil-biomedica-utem-impulsan-uso-de-ia/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">Noticias de Biomedicina UTEM</a></li>
                 </ul>
+              </div>
+
+              {/* COLUMNA 4: MARCO LEGAL (LEY N° 21.719 CHILE) */}
+              <div>
+                <h4 className="text-white font-bold text-lg mb-6 flex items-center gap-2">
+                  <Shield size={18} className="text-teal-400 shrink-0" />
+                  <span>Marco Legal</span>
+                </h4>
+                <ul className="space-y-2.5 text-sm">
+                  <li>
+                    <button
+                      type="button"
+                      onClick={() => navigateTo('legal', 'privacidad')}
+                      className="text-slate-400 hover:text-teal-300 transition-colors text-left cursor-pointer flex items-center gap-2"
+                    >
+                      <span className="text-teal-500">•</span> Política de Privacidad
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                      onClick={() => navigateTo('legal', 'terminos')}
+                      className="text-slate-400 hover:text-teal-300 transition-colors text-left cursor-pointer flex items-center gap-2"
+                    >
+                      <span className="text-teal-500">•</span> Términos y Condiciones
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                      onClick={() => navigateTo('legal', 'cookies')}
+                      className="text-slate-400 hover:text-teal-300 transition-colors text-left cursor-pointer flex items-center gap-2"
+                    >
+                      <span className="text-teal-500">•</span> Política de Cookies
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                      onClick={() => navigateTo('legal', 'registro')}
+                      className="text-slate-400 hover:text-teal-300 transition-colors text-left cursor-pointer flex items-center gap-2"
+                    >
+                      <span className="text-teal-500">•</span> Derechos ARCOP y Registro
+                    </button>
+                  </li>
+                </ul>
+                <p className="text-[11px] text-slate-500 mt-5 leading-relaxed">
+                  Cumplimiento de la Ley N° 21.719 sobre Protección de Datos Personales en Chile.
+                </p>
               </div>
             </div>
 
-            {/* PIE DE PÁGINA INFERIOR CON ENLACES LEGALES (LEY 21.719 CHILE) */}
-            <div className="container mx-auto px-6 mt-12 pt-8 border-t border-slate-800 flex flex-col gap-4 text-xs text-slate-400">
-              <div className="flex flex-wrap items-center justify-center sm:justify-between gap-4">
-                <div className="flex flex-wrap items-center gap-4">
-                  <button
-                    type="button"
-                    onClick={() => navigateTo('legal', 'privacidad')}
-                    className="hover:text-teal-300 transition-colors underline cursor-pointer"
-                  >
-                    Política de Privacidad (Ley N° 21.719)
-                  </button>
-                  <span className="text-slate-700">•</span>
-                  <button
-                    type="button"
-                    onClick={() => navigateTo('legal', 'terminos')}
-                    className="hover:text-teal-300 transition-colors underline cursor-pointer"
-                  >
-                    Términos y Condiciones
-                  </button>
-                  <span className="text-slate-700">•</span>
-                  <button
-                    type="button"
-                    onClick={() => navigateTo('legal', 'cookies')}
-                    className="hover:text-teal-300 transition-colors underline cursor-pointer"
-                  >
-                    Política de Cookies
-                  </button>
-                  <span className="text-slate-700">•</span>
-                  <button
-                    type="button"
-                    onClick={() => navigateTo('legal', 'registro')}
-                    className="hover:text-teal-300 transition-colors underline cursor-pointer"
-                  >
-                    Derechos ARCOP y Registro de Consentimiento
-                  </button>
-                </div>
-                <div className="text-slate-500">
-                  Universidad Tecnológica Metropolitana (UTEM) · Chile
-                </div>
+            {/* BARRA INFERIOR DEL FOOTER */}
+            <div className="container mx-auto px-6 mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+              <div className="text-center sm:text-left">
+                © {config.year} {config.nombreCompleto}. Todos los derechos reservados.
               </div>
-              <div className="text-center sm:text-left text-slate-500">
-                © {config.year} {config.nombreCompleto}. Todos los derechos reservados. Cumplimiento Ley N° 21.719 sobre Protección de Datos Personales.
+              <div className="text-center sm:text-right text-slate-400">
+                Universidad Tecnológica Metropolitana (UTEM) · Santiago, Chile
               </div>
             </div>
           </footer>

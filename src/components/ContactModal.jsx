@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Send, CheckCircle2, AlertCircle, Loader2, User, Mail, Briefcase, HelpCircle, MessageSquare, Shield, Cookie } from 'lucide-react';
+import { X, Send, CheckCircle2, AlertCircle, Loader2, User, Mail, Briefcase, HelpCircle, MessageSquare, Shield } from 'lucide-react';
 import { recordConsent, getCookiePreference, LegalQuickModal, LEGAL_DOC_VERSION } from './LegalCompliance';
 
 export default function ContactModal({ isOpen, onClose }) {
@@ -12,32 +12,11 @@ export default function ContactModal({ isOpen, onClose }) {
     comentarios: '',
   });
 
-  // Dos casillas separadas para cookies ("Aceptar cookies" y "Rechazar cookies") + aceptación de Privacidad y T&C
-  const [aceptarCookies, setAceptarCookies] = useState(() => {
-    const pref = getCookiePreference();
-    return pref ? pref.decision === 'accepted' : false;
-  });
-  const [rechazarCookies, setRechazarCookies] = useState(() => {
-    const pref = getCookiePreference();
-    return pref ? pref.decision === 'rejected' : false;
-  });
-  const [aceptoPoliticas, setAceptoPoliticas] = useState(false);
   const [lastConsentRecord, setLastConsentRecord] = useState(null);
   const [legalModalTab, setLegalModalTab] = useState(null);
 
   const [status, setStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
   const [errorMessage, setErrorMessage] = useState('');
-
-  // Sincronizar con la preferencia guardada al abrir el modal
-  useEffect(() => {
-    if (isOpen) {
-      const pref = getCookiePreference();
-      if (pref) {
-        setAceptarCookies(pref.decision === 'accepted');
-        setRechazarCookies(pref.decision === 'rejected');
-      }
-    }
-  }, [isOpen]);
 
   // Cerrar modal con tecla Escape
   useEffect(() => {
@@ -72,17 +51,6 @@ export default function ContactModal({ isOpen, onClose }) {
     }));
   };
 
-  // Manejo de las dos casillas separadas de cookies (Aceptar vs Rechazar)
-  const handleCheckAceptarCookies = (checked) => {
-    setAceptarCookies(checked);
-    if (checked) setRechazarCookies(false);
-  };
-
-  const handleCheckRechazarCookies = (checked) => {
-    setRechazarCookies(checked);
-    if (checked) setAceptarCookies(false);
-  };
-
   const handleClose = () => {
     onClose();
     // Si terminó en éxito, reiniciar estado después de cerrar
@@ -97,7 +65,6 @@ export default function ContactModal({ isOpen, onClose }) {
           motivoPersonalizado: '',
           comentarios: '',
         });
-        setAceptoPoliticas(false);
       }, 300);
     }
   };
@@ -105,25 +72,14 @@ export default function ContactModal({ isOpen, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
-
-    if (!aceptarCookies && !rechazarCookies) {
-      setStatus('error');
-      setErrorMessage('Por favor selecciona una de las dos casillas de cookies ("Aceptar cookies" o "Rechazar cookies") antes de enviar.');
-      return;
-    }
-
-    if (!aceptoPoliticas) {
-      setStatus('error');
-      setErrorMessage('Debes aceptar la Política de Privacidad y los Términos y Condiciones (Ley N° 21.719) para poder procesar tu solicitud de contacto.');
-      return;
-    }
-
     setStatus('submitting');
 
-    // Guardar registro auditable de cuándo y cómo aceptó la persona
-    const cookieDecision = aceptarCookies ? 'accepted' : 'rejected';
+    // Registrar consentimiento tácito de tratamiento para responder la consulta
+    // y respetar la preferencia de cookies actual configurada en el banner (Ley 21.719)
+    const currentPref = getCookiePreference();
+    const cookieDecision = currentPref ? currentPref.decision : 'technical_only';
     const consentEntry = recordConsent({
-      source: `Formulario de Contacto Web (Casilla explícita: ${aceptarCookies ? 'Aceptar cookies' : 'Rechazar cookies'} + Aceptación Política de Privacidad y T&C)`,
+      source: 'Formulario de Contacto Web (Envío directo)',
       cookieDecision,
       acceptedPrivacyAndTerms: true,
       userName: formData.nombre.trim(),
@@ -140,8 +96,8 @@ export default function ContactModal({ isOpen, onClose }) {
     // Key 1: latsibutem@gmail.com
     // Key 2: rcaulier@utem.cl
     // ─────────────────────────────────────────────────────────────────
-    const KEY_LATSIB = '52fff220-4e6e-4c4f-bc0c-3c785536a88e';
-    const KEY_RCAULIER = 'd9f6ec50-6190-4f6e-890c-2ebc189db655';
+    const KEY_LATSIB = import.meta.env.VITE_WEB3FORMS_KEY_LATSIB || '52fff220-4e6e-4c4f-bc0c-3c785536a88e';
+    const KEY_RCAULIER = import.meta.env.VITE_WEB3FORMS_KEY_RCAULIER || 'd9f6ec50-6190-4f6e-890c-2ebc189db655';
 
     const basePayload = {
       subject: `Nuevo Contacto LaTSIB: ${motivoFinal} - ${formData.nombre.trim()}`,
@@ -192,14 +148,16 @@ export default function ContactModal({ isOpen, onClose }) {
   // Enlace mailto de respaldo en caso de fallo de red
   const getMailtoLink = () => {
     const motivoFinal = formData.motivo === 'Otro' ? formData.motivoPersonalizado : formData.motivo;
+    const pref = getCookiePreference();
+    const cookieText = pref ? (pref.decision === 'accepted' ? 'Aceptadas' : 'Rechazadas') : 'Solo Técnicas';
     const subject = encodeURIComponent(`Contacto LaTSIB: ${motivoFinal || 'Consulta'} - ${formData.nombre}`);
     const body = encodeURIComponent(
       `Nombre y Apellido: ${formData.nombre}\n` +
       `Correo de Contacto: ${formData.email}\n` +
       `Ocupación / Institución: ${formData.ocupacion}\n` +
       `Motivo de Contacto: ${motivoFinal}\n` +
-      `Preferencia de Cookies: ${aceptarCookies ? 'Aceptar cookies' : 'Rechazar cookies'}\n` +
-      `Aceptación Política de Privacidad y Términos (Ley 21.719): Sí\n\n` +
+      `Preferencia de Cookies: ${cookieText}\n` +
+      `Tratamiento de Datos Personales (Ley 21.719): Autorizado para contacto\n\n` +
       `Comentarios y Contexto:\n${formData.comentarios}`
     );
     return `mailto:rcaulier@utem.cl,latsibutem@gmail.com?subject=${subject}&body=${body}`;
@@ -282,14 +240,12 @@ export default function ContactModal({ isOpen, onClose }) {
                     <span>Aviso al enviar</span>
                   </div>
                   <p className="text-xs text-rose-700 leading-relaxed">{errorMessage}</p>
-                  {aceptoPoliticas && (aceptarCookies || rechazarCookies) && (
-                    <a
-                      href={getMailtoLink()}
-                      className="inline-flex items-center justify-center gap-2 mt-1 px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-lg transition-colors"
-                    >
-                      <Mail size={14} /> Enviar directamente con mi app de correo
-                    </a>
-                  )}
+                  <a
+                    href={getMailtoLink()}
+                    className="inline-flex items-center justify-center gap-2 mt-1 px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-lg transition-colors"
+                  >
+                    <Mail size={14} /> Enviar directamente con mi app de correo
+                  </a>
                 </div>
               )}
 
@@ -402,107 +358,27 @@ export default function ContactModal({ isOpen, onClose }) {
                 />
               </div>
 
-              {/* SECCIÓN DE CONSENTIMIENTO LEGAL Y DOS CASILLAS SEPARADAS DE COOKIES (LEY 21.719 CHILE) */}
-              <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-3">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800 uppercase tracking-wider">
-                  <Cookie size={14} className="text-blue-600 shrink-0" />
-                  <span>Preferencia de Cookies y Privacidad (Ley N° 21.719) <span className="text-rose-500">*</span></span>
-                </div>
-
-                {/* Dos casillas separadas: una para Aceptar cookies y otra para Rechazar cookies */}
-                <div className="grid sm:grid-cols-2 gap-2.5">
-                  <label
-                    className={`flex items-start gap-2.5 p-3 rounded-xl border text-xs cursor-pointer transition-all ${
-                      aceptarCookies
-                        ? 'bg-emerald-50/80 border-emerald-400 text-emerald-950 font-semibold'
-                        : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
-                    }`}
+              {/* TEXTO INFORMATIVO DISCRETO SOBRE TRATAMIENTO DE DATOS (LEY N° 21.719) */}
+              <div className="pt-1 text-xs text-slate-500 leading-relaxed flex items-start gap-2 bg-slate-50 p-3 rounded-xl border border-slate-200/80">
+                <Shield size={15} className="text-teal-600 mt-0.5 shrink-0" />
+                <p>
+                  Tus datos serán tratados exclusivamente para responder tu consulta académica o científica, conforme a nuestra{' '}
+                  <button
+                    type="button"
+                    onClick={() => setLegalModalTab('privacidad')}
+                    className="text-blue-600 font-semibold underline hover:text-blue-800 cursor-pointer"
                   >
-                    <input
-                      type="checkbox"
-                      checked={aceptarCookies}
-                      onChange={(e) => handleCheckAceptarCookies(e.target.checked)}
-                      disabled={status === 'submitting'}
-                      className="mt-0.5 h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
-                    />
-                    <span>
-                      <strong>Aceptar cookies</strong> y almacenamiento funcional según la{' '}
-                      <button
-                        type="button"
-                        onClick={(e) => { e.preventDefault(); setLegalModalTab('cookies'); }}
-                        className="text-blue-600 underline hover:text-blue-800 font-semibold cursor-pointer"
-                      >
-                        Política de Cookies
-                      </button>
-                      .
-                    </span>
-                  </label>
-
-                  <label
-                    className={`flex items-start gap-2.5 p-3 rounded-xl border text-xs cursor-pointer transition-all ${
-                      rechazarCookies
-                        ? 'bg-amber-50/80 border-amber-400 text-amber-950 font-semibold'
-                        : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
-                    }`}
+                    Política de Privacidad
+                  </button>{' '}
+                  y{' '}
+                  <button
+                    type="button"
+                    onClick={() => setLegalModalTab('terminos')}
+                    className="text-blue-600 font-semibold underline hover:text-blue-800 cursor-pointer"
                   >
-                    <input
-                      type="checkbox"
-                      checked={rechazarCookies}
-                      onChange={(e) => handleCheckRechazarCookies(e.target.checked)}
-                      disabled={status === 'submitting'}
-                      className="mt-0.5 h-4 w-4 rounded border-slate-300 text-amber-600 focus:ring-amber-500 cursor-pointer"
-                    />
-                    <span>
-                      <strong>Rechazar cookies</strong> opcionales (solo se usará lo estrictamente técnico). Ver{' '}
-                      <button
-                        type="button"
-                        onClick={(e) => { e.preventDefault(); setLegalModalTab('cookies'); }}
-                        className="text-blue-600 underline hover:text-blue-800 font-semibold cursor-pointer"
-                      >
-                        Política de Cookies
-                      </button>
-                      .
-                    </span>
-                  </label>
-                </div>
-
-                {/* Casilla de aceptación de Política de Privacidad y Términos y Condiciones */}
-                <label className="flex items-start gap-2.5 pt-2 border-t border-slate-200/80 text-xs text-slate-700 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    required
-                    checked={aceptoPoliticas}
-                    onChange={(e) => setAceptoPoliticas(e.target.checked)}
-                    disabled={status === 'submitting'}
-                    className="mt-0.5 h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
-                  />
-                  <span className="leading-relaxed">
-                    He leído y acepto la{' '}
-                    <button
-                      type="button"
-                      onClick={(e) => { e.preventDefault(); setLegalModalTab('privacidad'); }}
-                      className="text-blue-600 font-bold underline hover:text-blue-800 cursor-pointer"
-                    >
-                      Política de Privacidad
-                    </button>{' '}
-                    y los{' '}
-                    <button
-                      type="button"
-                      onClick={(e) => { e.preventDefault(); setLegalModalTab('terminos'); }}
-                      className="text-blue-600 font-bold underline hover:text-blue-800 cursor-pointer"
-                    >
-                      Términos y Condiciones
-                    </button>
-                    , autorizando el tratamiento de mis datos personales para responder mi consulta conforme a la{' '}
-                    <strong>Ley N° 21.719 de Chile</strong>. <span className="text-rose-500">*</span>
-                  </span>
-                </label>
-
-                <p className="text-[11px] text-slate-500 flex items-center gap-1.5">
-                  <Shield size={12} className="text-teal-600 shrink-0" />
-                  <span>
-                    Se guardará un registro de cuándo y cómo aceptaste. Puedes ejercer tus derechos de Acceso, Rectificación, Supresión, Oposición y Portabilidad en cualquier momento.
-                  </span>
+                    Términos y Condiciones
+                  </button>{' '}
+                  (Ley N° 21.719 de Chile).
                 </p>
               </div>
 
