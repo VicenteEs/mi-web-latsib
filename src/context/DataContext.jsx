@@ -117,131 +117,6 @@ export const DataProvider = ({ children }) => {
   };
 
   // --- AUTENTICACIÓN Y DOBLE FACTOR (2FA) ---
-  const loginWithGoogle = (googleInput) => {
-    let rawEmail = '';
-    let googleName = '';
-    let googlePicture = '';
-
-    if (typeof googleInput === 'string') {
-      rawEmail = googleInput;
-    } else if (googleInput && typeof googleInput === 'object') {
-      rawEmail = googleInput.email || '';
-      googleName = googleInput.name || '';
-      googlePicture = googleInput.picture || '';
-    }
-
-    let cleanEmail = (rawEmail || '').trim().toLowerCase();
-
-    if (!cleanEmail) {
-      return { 
-        success: false, 
-        message: 'Por favor ingresa tu cuenta de correo institucional de Google (Mi UTEM).' 
-      };
-    }
-
-    // Permitir correo institucional principal del lab (config.email) o latsibutem@gmail.com
-    const isLabEmail = (config?.email && config.email.toLowerCase() === cleanEmail) || 
-                        cleanEmail === 'latsibutem@gmail.com';
-
-    // 1. Restricción de Dominio: Debe ser @utem.cl (o correo oficial del lab)
-    if (!cleanEmail.endsWith('@utem.cl') && !isLabEmail) {
-      return {
-        success: false,
-        isUnauthorized: true,
-        email: cleanEmail,
-        message: `Acceso denegado: El correo ${cleanEmail} no pertenece al dominio institucional (@utem.cl). Debe utilizar su cuenta institucional Mi UTEM.`
-      };
-    }
-
-    // 2. Validación en la Base de Datos: Buscar coincidencia EXACTA en la tabla Equipo LaTSIB
-    const teamMember = equipo.find(m => {
-      const mEmail = (m.contactos?.email || m.email || '').trim().toLowerCase();
-      const mGoogleEmail = (m.contactos?.googleEmail || '').trim().toLowerCase();
-
-      return (
-        (mEmail && mEmail === cleanEmail) ||
-        (mGoogleEmail && mGoogleEmail === cleanEmail)
-      );
-    });
-
-    // 3. Buscar en la lista de usuarios administradores registrados
-    const userRecord = users.find(u => {
-      const uEmail = (u.email || '').trim().toLowerCase();
-      return uEmail && uEmail === cleanEmail;
-    });
-
-    // Si NO está en el equipo ni en usuarios autorizados ni es el correo del lab
-    if (!teamMember && !userRecord && !isLabEmail) {
-      return {
-        success: false,
-        isUnauthorized: true,
-        email: cleanEmail,
-        message: `Acceso denegado: El correo ${cleanEmail} no pertenece al equipo autorizado del LaTSIB.`
-      };
-    }
-
-    // Verificar si el integrante está marcado como inactivo o exintegrante
-    if (teamMember && (teamMember.activo === false || teamMember.categoria === 'exintegrantes')) {
-      return {
-        success: false,
-        message: `Acceso denegado: El perfil de ${teamMember.nombre} se encuentra marcado como inactivo o exintegrante.`
-      };
-    }
-    if (userRecord && userRecord.estado === 'inactivo') {
-      return {
-        success: false,
-        message: `Acceso denegado: Tu cuenta de usuario se encuentra desactivada.`
-      };
-    }
-
-    // Determinar rol del usuario según la ficha del integrante o registro
-    const resolvedEmail = teamMember?.contactos?.email || teamMember?.email || userRecord?.email || emailWithDomain;
-    let assignedRole = 'member';
-    if (teamMember?.permisoRol) {
-      assignedRole = teamMember.permisoRol;
-    } else if (userRecord?.rol) {
-      assignedRole = userRecord.rol;
-    } else if (teamMember) {
-      const checkMail = resolvedEmail.toLowerCase();
-      if (
-        checkMail === 'cguajardo@utem.cl' || 
-        checkMail === 'rcaulier@utem.cl' || 
-        checkMail === 'avega@utem.cl' || 
-        checkMail === 'vescuderod@utem.cl' || 
-        checkMail === 'glanyon@utem.cl' ||
-        isLabEmail
-      ) {
-        assignedRole = 'admin';
-      } else if (checkMail === 'jvergara@utem.cl' || checkMail === 'fespinoza@utem.cl') {
-        assignedRole = 'editor';
-      } else {
-        assignedRole = 'member';
-      }
-    }
-
-    const isPrimaryAdmin = resolvedEmail === 'cguajardo@utem.cl' || userRecord?.isPrimaryAdmin || isLabEmail;
-    const displayName = teamMember?.nombre || userRecord?.nombre || googleName || resolvedEmail;
-    const displayAvatar = teamMember?.img || userRecord?.avatar || googlePicture || '/logo-circle.png';
-    const displayCargo = teamMember?.rol || teamMember?.bio || userRecord?.cargo || 'Integrante del Laboratorio';
-
-    const sessionUser = {
-      id: userRecord?.id || teamMember?.id || `u_${userPrefix}`,
-      nombre: displayName,
-      email: resolvedEmail,
-      rol: assignedRole,
-      isPrimaryAdmin: Boolean(isPrimaryAdmin),
-      avatar: displayAvatar,
-      cargo: displayCargo,
-      isGoogleAuth: true,
-      googleEmail: cleanEmail,
-      teamMemberId: teamMember?.id || null,
-      esTesista: teamMember?.esTesista || false
-    };
-
-    setCurrentUser(sessionUser);
-    return { success: true, user: sessionUser };
-  };
-
   const login = (email, password) => {
     const rawEmail = (email || '').trim().toLowerCase();
     const cleanPass = (password || '').trim();
@@ -849,7 +724,6 @@ export const DataProvider = ({ children }) => {
     setAdminTheme,
     toggleAdminTheme,
     login,
-    loginWithGoogle,
     verify2FALogin,
     logout,
     logAction,

@@ -489,7 +489,7 @@ export const AdminTeam = ({ initialOpenModal = false }) => {
                 </div>
                 <div>
                   <label className="block text-slate-300 font-bold uppercase tracking-wider mb-1">
-                    Correo Oficial (Google / UTEM) <span className="text-teal-400">*</span>
+                    Correo Oficial (UTEM) <span className="text-teal-400">*</span>
                   </label>
                   <input
                     type="email"
@@ -499,14 +499,14 @@ export const AdminTeam = ({ initialOpenModal = false }) => {
                     className="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-400"
                     required
                   />
-                  <p className="text-[10px] text-slate-400 mt-1">Obligatorio para habilitar el inicio de sesión con Google.</p>
+                  <p className="text-[10px] text-slate-400 mt-1">Correo institucional del integrante.</p>
                 </div>
               </div>
 
               {/* Rol de Acceso al Panel del Sistema */}
               <div className="p-3.5 rounded-2xl bg-blue-950/30 border border-blue-500/20">
                 <label className="block text-slate-200 font-bold uppercase tracking-wider mb-1.5 flex items-center justify-between">
-                  <span>Permisos de Acceso al Panel (con Google)</span>
+                  <span>Permisos de Acceso al Panel</span>
                   <span className="text-[10px] font-normal text-teal-400">Mapeo Automático Backend</span>
                 </label>
                 <select

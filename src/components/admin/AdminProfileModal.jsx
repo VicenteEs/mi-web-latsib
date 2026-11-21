@@ -148,7 +148,7 @@ export const AdminProfileModal = ({ isOpen, onClose }) => {
             }`}
           >
             <ShieldCheck size={14} />
-            Cuenta Google & Seguridad
+            Cuenta & Seguridad
           </button>
         </div>
 
@@ -369,8 +369,8 @@ export const AdminProfileModal = ({ isOpen, onClose }) => {
               <div className="p-4 rounded-2xl bg-teal-500/10 border border-teal-500/20 text-teal-300 text-xs leading-relaxed flex items-start gap-3">
                 <ShieldCheck size={20} className="text-teal-400 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-white block font-bold mb-0.5">Autenticación Segura mediante Google Workspace</strong>
-                  Tu acceso al panel está vinculado directamente a tu cuenta de Google institucional (<span className="text-teal-200 font-mono">{currentUser.email}</span>).
+                  <strong className="text-white block font-bold mb-0.5">Autenticación Institucional</strong>
+                  Tu acceso al panel está vinculado a tu correo institucional (<span className="text-teal-200 font-mono">{currentUser.email}</span>).
                 </div>
               </div>
 
@@ -394,7 +394,7 @@ export const AdminProfileModal = ({ isOpen, onClose }) => {
                 <div className="flex items-center justify-between py-2">
                   <span className="text-xs text-slate-400 font-medium">Proveedor de Identidad</span>
                   <span className="text-xs font-semibold text-slate-200 flex items-center gap-1.5">
-                    Google OAuth 2.0 / UTEM SSO
+                    Cuenta Institucional UTEM
                   </span>
                 </div>
               </div>
@@ -405,7 +405,7 @@ export const AdminProfileModal = ({ isOpen, onClose }) => {
                   <span>Seguridad de Contraseñas y 2FA</span>
                 </div>
                 <p className="text-[11px] text-slate-300 leading-relaxed">
-                  Al utilizar Google Sign-In, la seguridad de tu contraseña, verificación en dos pasos y recuperación están gestionadas directamente por Google. Para cambiar tu clave de acceso o configurar llaves de seguridad, hazlo desde tu cuenta Google de la UTEM.
+                  La seguridad de tu contraseña, verificación en dos pasos y recuperación están gestionadas a través de tu cuenta institucional UTEM.
                 </p>
               </div>
             </div>
