@@ -316,7 +316,7 @@ export const INITIAL_EQUIPO = [
     categoria: "asistentes",
     rol: "Asistente Investigador",
     bio: "Estudiante de Ingeniería Civil en Ciencia de Datos",
-    img: "/equipo/VicentePERFIL.jpg",
+    img: "/equipo/VicentePERFIL_2026.jpg",
     esTesista: false,
     activo: true,
     orden: 10,
@@ -948,7 +948,7 @@ export const DEFAULT_USERS = [
     rol: 'admin',
     estado: 'activo',
     has2FA: false,
-    avatar: '/equipo/VicentePERFIL.jpg',
+    avatar: '/equipo/VicentePERFIL_2026.jpg',
     cargo: 'Asistente Investigador',
     creadoEl: '08/09/2026'
   },
