@@ -3,7 +3,8 @@ import {
   Atom, Cpu, Globe, Users, FileText, Mail, MapPin, 
   ChevronRight, ChevronLeft, Menu, X, Linkedin, Github, 
   ExternalLink, BookOpen, Calendar, ArrowLeft, LayoutGrid, Info, Download, 
-  Instagram, Youtube, Maximize2
+  Instagram, Youtube, Maximize2, Target, Eye, Sparkles, GraduationCap,
+  HeartPulse, Activity, Brain, Lightbulb, CheckCircle2
 } from 'lucide-react';
 import ContactModal from './components/ContactModal';
 import { LegalPageView, CookieConsentBanner } from './components/LegalCompliance';
@@ -329,6 +330,283 @@ const ActivityDetailView = ({ activity, onBack }) => {
               src={selectedImage.url}
               alt={selectedImage.descripcion || "Imagen completa"}
               className="max-h-[75vh] max-w-full object-contain rounded-xl shadow-2xl"
+            />
+            {selectedImage.descripcion && (
+              <div className="mt-4 p-4 bg-slate-900/90 backdrop-blur-md border border-white/10 text-white text-sm max-w-2xl text-center rounded-2xl">
+                {selectedImage.descripcion}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Vista Dedicada: Sobre Nosotros (Identidad, Misión, Visión, Ejes y Formación)
+const AboutView = ({ onBack, onNavigateWhatWeDo, onContact, institutionalInfo }) => {
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const info = institutionalInfo || {};
+  const ejes = info.ejesEstrategicos || [];
+  const formacion = info.formacionPregrado || {};
+  const etapas = formacion.etapas || [];
+
+  return (
+    <div className="pt-32 pb-24 min-h-screen bg-slate-50 animate-in fade-in duration-300">
+      <div className="container mx-auto px-6 max-w-6xl">
+        {/* Botón Volver */}
+        <div className="mb-8">
+          <button
+            type="button"
+            onClick={onBack}
+            className="inline-flex items-center gap-2 text-slate-600 hover:text-blue-600 font-semibold transition-colors bg-white px-5 py-2.5 rounded-full shadow-sm border border-slate-200 cursor-pointer hover:shadow"
+          >
+            <ArrowLeft size={18} /> Volver al inicio
+          </button>
+        </div>
+
+        {/* Encabezado Principal */}
+        <div className="mb-10">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-100 text-blue-700 font-bold text-xs uppercase tracking-wider mb-4">
+            <Sparkles size={14} className="text-blue-600" /> Laboratorio LaTSIB · UTEM
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">
+            Sobre Nosotros
+          </h1>
+          <p className="text-lg text-slate-600 max-w-3xl">
+            Identidad institucional, misión, visión y proyección formativa del Laboratorio de Biomédica Traslacional.
+          </p>
+        </div>
+
+        {/* Banner Presentación Institucional */}
+        <div className="bg-gradient-to-br from-[#08182b] via-[#0d2a45] to-[#0a3853] rounded-3xl p-8 sm:p-12 text-white shadow-xl mb-16 relative overflow-hidden">
+          <div className="absolute -right-10 -bottom-10 w-80 h-80 bg-teal-500/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -left-10 -top-10 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10">
+            <span className="text-xs uppercase font-bold tracking-widest text-teal-300 block mb-3">
+              Presentación Institucional
+            </span>
+            <p className="text-lg sm:text-xl text-slate-100 leading-relaxed font-normal">
+              {info.presentacion}
+            </p>
+          </div>
+        </div>
+
+        {/* Misión y Visión */}
+        <div className="grid md:grid-cols-2 gap-8 mb-16">
+          {/* Misión */}
+          <div className="bg-white rounded-3xl p-8 sm:p-10 shadow-sm border border-slate-200/80 hover:shadow-md transition-shadow flex flex-col">
+            <div className="w-14 h-14 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center mb-6 border border-teal-100 shadow-2xs">
+              <Target size={28} />
+            </div>
+            <h2 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">
+              Misión Institucional
+            </h2>
+            <div className="text-slate-600 leading-relaxed space-y-4 text-sm sm:text-base flex-grow">
+              {(info.mision || '').split('\n\n').map((parrafo, i) => (
+                <p key={i}>{parrafo}</p>
+              ))}
+            </div>
+          </div>
+
+          {/* Visión */}
+          <div className="bg-white rounded-3xl p-8 sm:p-10 shadow-sm border border-slate-200/80 hover:shadow-md transition-shadow flex flex-col">
+            <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 border border-blue-100 shadow-2xs">
+              <Eye size={28} />
+            </div>
+            <h2 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">
+              Visión de Futuro
+            </h2>
+            <div className="text-slate-600 leading-relaxed space-y-4 text-sm sm:text-base flex-grow">
+              {(info.vision || '').split('\n\n').map((parrafo, i) => (
+                <p key={i}>{parrafo}</p>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Ejes Estratégicos */}
+        <div className="mb-20">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 font-bold text-xs uppercase tracking-wider mb-3">
+              Lineamientos Directores
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-3">
+              Ejes Estratégicos del Laboratorio
+            </h2>
+            <p className="text-slate-600 text-sm sm:text-base">
+              Cuatro pilares fundamentales que articulan la actividad científica, formativa y de transferencia tecnológica de LaTSIB.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {ejes.map((eje, idx) => (
+              <div
+                key={idx}
+                className="bg-white p-7 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-3xl font-black text-slate-200 group-hover:text-teal-400 transition-colors">
+                      {eje.numero}
+                    </span>
+                    <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-600 border border-slate-100">
+                      {idx === 0 ? <Atom size={20} className="text-blue-600" /> :
+                       idx === 1 ? <GraduationCap size={20} className="text-teal-600" /> :
+                       idx === 2 ? <HeartPulse size={20} className="text-rose-600" /> :
+                                   <Globe size={20} className="text-indigo-600" />}
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-3 leading-snug">
+                    {eje.titulo}
+                  </h3>
+                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                    {eje.descripcion}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Formación Científica desde el Pregrado */}
+        <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200/80 shadow-sm mb-16">
+          <div className="max-w-3xl mb-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 text-teal-700 font-bold text-xs uppercase tracking-wider mb-3 border border-teal-100">
+              <GraduationCap size={14} /> {formacion.subtitulo}
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+              {formacion.titulo}
+            </h2>
+            <p className="text-slate-700 leading-relaxed text-base sm:text-lg">
+              {formacion.introduccion}
+            </p>
+          </div>
+
+          {/* Infografía Oficial */}
+          <div className="my-10 bg-slate-50 rounded-2xl p-4 sm:p-8 border border-slate-200">
+            <div className="flex items-center justify-between mb-4 px-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                Infografía Oficial · Trayectoria Formativa en Investigación
+              </span>
+              <button
+                type="button"
+                onClick={() => setSelectedImage({ url: formacion.infografia, descripcion: "Trayectoria formativa de capital humano en investigación LaTSIB" })}
+                className="text-xs text-blue-600 hover:text-blue-700 font-semibold inline-flex items-center gap-1 cursor-pointer"
+              >
+                <Maximize2 size={13} /> Ampliar
+              </button>
+            </div>
+            <div 
+              className="rounded-xl overflow-hidden shadow-sm border border-slate-200 bg-white cursor-pointer hover:shadow-md transition-shadow"
+              onClick={() => setSelectedImage({ url: formacion.infografia, descripcion: "Trayectoria formativa de capital humano en investigación LaTSIB" })}
+            >
+              <img
+                src={formacion.infografia || "/trayectoria-formacion.png"}
+                alt="Trayectoria de formación científica desde el pregrado LaTSIB"
+                className="w-full h-auto object-contain mx-auto"
+                loading="lazy"
+              />
+            </div>
+            {formacion.notaPie && (
+              <p className="text-xs text-slate-500 mt-3 text-center italic">
+                * {formacion.notaPie}
+              </p>
+            )}
+          </div>
+
+          {/* Las 4 Etapas Formativas */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            {etapas.map((etapa, idx) => (
+              <div key={idx} className="bg-slate-50 p-6 rounded-2xl border border-slate-200/70 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="px-2.5 py-0.5 rounded-full text-xs font-black bg-blue-100 text-blue-700">
+                      Paso {etapa.paso}
+                    </span>
+                  </div>
+                  <h4 className="font-bold text-slate-900 text-base mb-1">
+                    {etapa.nombre}
+                  </h4>
+                  <span className="text-xs font-semibold text-teal-600 block mb-3">
+                    {etapa.alcance}
+                  </span>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    {etapa.descripcion}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Bloque de Acompañamiento y Principio Orientador */}
+          <div className="grid md:grid-cols-2 gap-6 pt-6 border-t border-slate-100">
+            <div className="p-6 rounded-2xl bg-gradient-to-br from-blue-50/80 to-slate-50 border border-blue-100/80">
+              <h4 className="text-sm font-bold uppercase tracking-wider text-blue-900 mb-2 flex items-center gap-2">
+                <CheckCircle2 size={16} className="text-blue-600" /> Acompañamiento y Tutoría
+              </h4>
+              <p className="text-slate-700 text-xs sm:text-sm leading-relaxed">
+                {formacion.acompanamiento}
+              </p>
+            </div>
+            <div className="p-6 rounded-2xl bg-gradient-to-br from-teal-50/80 to-slate-50 border border-teal-100/80">
+              <h4 className="text-sm font-bold uppercase tracking-wider text-teal-900 mb-2 flex items-center gap-2">
+                <Lightbulb size={16} className="text-teal-600" /> Principio Orientador
+              </h4>
+              <p className="text-slate-700 text-xs sm:text-sm leading-relaxed italic">
+                "{formacion.principioOrientador}"
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Acciones de Navegación Finales */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
+          <button
+            type="button"
+            onClick={onNavigateWhatWeDo}
+            className="w-full sm:w-auto px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-all shadow-md cursor-pointer flex items-center justify-center gap-2"
+          >
+            <span>Ver ¿Qué Hacemos? y Líneas de Investigación</span>
+            <ChevronRight size={18} />
+          </button>
+          <button
+            type="button"
+            onClick={onContact}
+            className="w-full sm:w-auto px-8 py-3.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 rounded-xl font-bold transition-all shadow-sm cursor-pointer flex items-center justify-center gap-2"
+          >
+            <Mail size={18} /> Contactar al Laboratorio
+          </button>
+        </div>
+      </div>
+
+      {/* Modal Lightbox de Imagen */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 z-[130] bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-4 animate-in fade-in duration-200"
+          onClick={() => setSelectedImage(null)}
+        >
+          <button
+            type="button"
+            onClick={() => setSelectedImage(null)}
+            className="absolute top-5 right-5 text-white/80 hover:text-white p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors cursor-pointer z-30"
+            aria-label="Cerrar imagen"
+          >
+            <X size={26} />
+          </button>
+          <div
+            className="relative max-h-[90vh] max-w-[95vw] flex flex-col items-center justify-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={selectedImage.url}
+              alt={selectedImage.descripcion || "Imagen"}
+              className="max-h-[80vh] max-w-full object-contain rounded-xl shadow-2xl bg-white p-2"
             />
             {selectedImage.descripcion && (
               <div className="mt-4 p-4 bg-slate-900/90 backdrop-blur-md border border-white/10 text-white text-sm max-w-2xl text-center rounded-2xl">
@@ -669,6 +947,8 @@ function AppContent() {
     publicaciones, 
     actividades, 
     proyectos, 
+    institutionalInfo,
+    lineasInvestigacion,
     categoriasEquipo, 
     currentUser 
   } = useData();
@@ -688,6 +968,9 @@ function AppContent() {
     // Determinar la clave de ruta principal
     let pathKey = (rawHash.split('?')[0] || rawPath || '').toLowerCase();
     
+    if (pathKey === 'nosotros' || pathKey === 'about-us' || pathKey === 'sobre-nosotros') {
+      return { view: 'about-us', id: null, section: null };
+    }
     if (!pathKey || pathKey === 'about' || pathKey === 'research' || pathKey === 'activities' || pathKey === 'team' || pathKey === 'publications' || pathKey === 'contact') {
       return { view: 'landing', id: null, section: pathKey || null };
     }
@@ -772,6 +1055,7 @@ function AppContent() {
   const navigateTo = (targetView, id = null) => {
     let newHash = '';
     if (targetView === 'landing') newHash = '';
+    else if (targetView === 'about-us') newHash = 'nosotros';
     else if (targetView === 'what-we-do') newHash = 'que-hacemos';
     else if (targetView === 'research-list') newHash = 'investigaciones';
     else if (targetView === 'research-detail') newHash = `investigacion/${id}`;
@@ -795,6 +1079,14 @@ function AppContent() {
     }
   };
 
+  const handleBack = (fallbackView = 'landing') => {
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      navigateTo(fallbackView);
+    }
+  };
+
   const handleViewResearch = (research) => {
     navigateTo('research-detail', research.id);
   };
@@ -806,6 +1098,7 @@ function AppContent() {
   const scrollToSection = (id) => {
     setMobileMenuOpen(false);
     setSideDrawerOpen(false);
+    if (id === 'about' || id === 'about-us' || id === 'nosotros') { navigateTo('about-us'); return; }
     if (id === 'what-we-do') { navigateTo('what-we-do'); return; }
     if (id === 'all-activities') { navigateTo('activities-list'); return; }
     if (id === 'all-research') { navigateTo('research-list'); return; }
@@ -875,7 +1168,7 @@ function AppContent() {
             </div>
           </div>
           <div className={`hidden md:flex items-center gap-7 ${isScrolled || route.view !== 'landing' ? 'text-slate-600' : 'text-white'}`}>
-            <button type="button" onClick={() => scrollToSection('about')} className="hover:text-blue-500 font-medium transition-colors cursor-pointer">Nosotros</button>
+            <button type="button" onClick={() => navigateTo('about-us')} className="hover:text-blue-500 font-medium transition-colors cursor-pointer">Nosotros</button>
             <button type="button" onClick={() => navigateTo('what-we-do')} className="hover:text-blue-500 font-medium transition-colors cursor-pointer">¿Qué Hacemos?</button>
             <button type="button" onClick={() => scrollToSection('research')} className="hover:text-blue-500 font-medium transition-colors cursor-pointer">Investigación</button>
             <button type="button" onClick={() => scrollToSection('activities')} className="hover:text-blue-500 font-medium transition-colors cursor-pointer">Actividades</button>
@@ -900,7 +1193,7 @@ function AppContent() {
         </div>
         {mobileMenuOpen && (
           <div className="md:hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-slate-100 p-6 flex flex-col gap-2 animate-in fade-in duration-200">
-            <NavLink mobile onClick={() => scrollToSection('about')}>Nosotros</NavLink>
+            <NavLink mobile onClick={() => { setMobileMenuOpen(false); navigateTo('about-us'); }}>Nosotros</NavLink>
             <NavLink mobile onClick={() => { setMobileMenuOpen(false); navigateTo('what-we-do'); }}>¿Qué Hacemos?</NavLink>
             <NavLink mobile onClick={() => scrollToSection('research')}>Investigación</NavLink>
             <NavLink mobile onClick={() => scrollToSection('activities')}>Actividades</NavLink>
@@ -946,7 +1239,7 @@ function AppContent() {
               
               <button
                 type="button"
-                onClick={() => { setSideDrawerOpen(false); scrollToSection('about'); }}
+                onClick={() => { setSideDrawerOpen(false); navigateTo('about-us'); }}
                 className="flex items-center gap-3.5 px-3.5 py-3 text-left rounded-xl text-slate-700 hover:text-blue-600 hover:bg-blue-50/70 font-semibold text-sm transition-all cursor-pointer group"
               >
                 <div className="p-1.5 rounded-lg bg-slate-100 text-slate-600 group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">
@@ -1027,10 +1320,17 @@ function AppContent() {
 
       {/* --- RENDERIZADO CONDICIONAL DE VISTAS PÚBLICAS --- */}
 
-      {/* VISTA: ¿QUÉ HACEMOS? */}
-      {route.view === 'what-we-do' ? (
+      {/* VISTA: SOBRE NOSOTROS */}
+      {route.view === 'about-us' ? (
+        <AboutView
+          onBack={() => navigateTo('landing')}
+          onNavigateWhatWeDo={() => navigateTo('what-we-do')}
+          onContact={() => setIsContactModalOpen(true)}
+          institutionalInfo={institutionalInfo}
+        />
+      ) : route.view === 'what-we-do' ? (
         <div className="pt-32 pb-24 min-h-screen bg-slate-50 animate-in fade-in duration-300">
-          <div className="container mx-auto px-6">
+          <div className="container mx-auto px-6 max-w-6xl">
             <div className="mb-10">
               <button
                 type="button"
@@ -1048,7 +1348,7 @@ function AppContent() {
                 ¿Qué Hacemos?
               </h1>
               
-              <div className="bg-gradient-to-br from-blue-900 via-slate-900 to-teal-900 rounded-3xl p-8 sm:p-10 text-white shadow-xl mb-16 relative overflow-hidden">
+              <div className="bg-gradient-to-br from-blue-900 via-slate-900 to-teal-900 rounded-3xl p-8 sm:p-10 text-white shadow-xl mb-12 relative overflow-hidden">
                 <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
                 <div className="absolute -left-10 -top-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
                 <p className="text-lg sm:text-xl text-slate-100 leading-relaxed font-normal mb-6 relative z-10">
@@ -1058,13 +1358,108 @@ function AppContent() {
                   Trabajamos en el procesamiento y análisis de señales e imágenes biomédicas, el estudio de la respuesta neurovascular mediante tecnologías como fNIRS, la modelación y simulación de fenómenos fisiológicos, y el desarrollo de soluciones inteligentes que integran tecnologías como inteligencia artificial y aprendizaje automático. Nuestra investigación busca conectar la ingeniería con las necesidades reales de las personas, generando conocimiento, herramientas y soluciones con potencial de aplicación clínica y tecnológica.
                 </p>
               </div>
+
+              {/* Enlace destacado hacia Sobre Nosotros */}
+              <div className="mb-14 p-6 sm:p-8 bg-white rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 hover:shadow-md transition-shadow">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl shrink-0">
+                    <Sparkles size={24} />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900 mb-1">
+                      Conoce más sobre Nuestra Identidad Institucional
+                    </h3>
+                    <p className="text-slate-600 text-sm">
+                      Descubre nuestra misión, visión, los 4 ejes estratégicos y el modelo formativo de capital humano desde el pregrado en LaTSIB.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => navigateTo('about-us')}
+                  className="shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-sm shadow-sm transition-all cursor-pointer"
+                >
+                  <span>Sobre Nosotros</span>
+                  <ChevronRight size={16} />
+                </button>
+              </div>
+            </div>
+
+            {/* Líneas de Investigación Institucionales */}
+            <div className="mb-16">
+              <div className="flex items-center gap-3 mb-4 pb-3 border-b border-slate-200">
+                <div className="p-2 rounded-xl bg-teal-100 text-teal-700">
+                  <Cpu size={22} />
+                </div>
+                <div>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+                    Líneas de Investigación Institucionales
+                  </h2>
+                  <p className="text-xs sm:text-sm text-slate-500 font-medium">
+                    Cuatro líneas desarrolladas por el Dr. Raúl Caulier Cisterna que articulan el trabajo científico en LaTSIB
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-8 mb-10">
+                {(lineasInvestigacion || []).map((linea) => (
+                  <div
+                    key={linea.id}
+                    className="bg-white rounded-3xl p-8 border border-slate-200/90 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between gap-3 mb-4">
+                        <span className="px-3 py-1 rounded-full text-xs font-bold bg-teal-50 text-teal-700 border border-teal-100">
+                          {linea.badge}
+                        </span>
+                        <span className="text-2xl font-black text-slate-300">
+                          {linea.numero}
+                        </span>
+                      </div>
+                      <div className="flex items-start gap-3.5 mb-4">
+                        <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100 shrink-0">
+                          {linea.id === 1 ? <Brain className="w-6 h-6 text-purple-600" /> :
+                           linea.id === 2 ? <Activity className="w-6 h-6 text-teal-600" /> :
+                           linea.id === 3 ? <HeartPulse className="w-6 h-6 text-rose-600" /> :
+                                            <Cpu className="w-6 h-6 text-blue-600" />}
+                        </div>
+                        <h3 className="text-lg font-bold text-slate-900 leading-snug">
+                          {linea.nombreCompleto || linea.titulo}
+                        </h3>
+                      </div>
+                      <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                        {linea.descripcion}
+                      </p>
+                      {linea.enfoque && (
+                        <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 text-xs text-slate-600 leading-relaxed">
+                          <strong className="text-slate-800 block mb-1">Alcance y Enfoque Metodológico:</strong>
+                          {linea.enfoque}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Articulación de las líneas */}
+              <div className="p-7 sm:p-9 bg-gradient-to-r from-blue-900 via-slate-900 to-teal-900 text-white rounded-3xl shadow-md">
+                <span className="text-xs uppercase font-bold tracking-widest text-teal-300 block mb-2">
+                  Articulación Científica
+                </span>
+                <h4 className="text-xl font-bold mb-3">
+                  Complementariedad y Sinergia Metodológica
+                </h4>
+                <p className="text-slate-200 text-sm sm:text-base leading-relaxed">
+                  {institutionalInfo?.articulacionLineas}
+                </p>
+              </div>
             </div>
 
             {/* Proyectos de Investigación */}
             <div className="mb-12">
               <div className="flex items-center gap-3 mb-8 pb-3 border-b border-slate-200">
                 <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-                  Líneas de Investigación y Proyectos
+                  Proyectos de Investigación Desarrollados en el Laboratorio
                 </h2>
                 <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-blue-100 text-blue-700">
                   {proyectos.length} proyectos
@@ -1088,6 +1483,11 @@ function AppContent() {
                     <div className="mb-6 p-4 bg-white/80 backdrop-blur-sm rounded-2xl w-fit group-hover:bg-white group-hover:scale-105 transition-all border border-white/60 shadow-sm">
                       <Atom className="w-8 h-8 text-[#1f7a8c]" />
                     </div>
+                    {item.linea && (
+                      <span className="text-[11px] font-bold text-blue-600 uppercase tracking-wider mb-2 block">
+                        {item.linea}
+                      </span>
+                    )}
                     <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-700 transition-colors leading-snug">{item.titulo}</h3>
                     <p className="text-slate-600 leading-relaxed flex-grow line-clamp-3 mb-6 text-sm">{item.desc}</p>
                     <div className="mt-auto pt-4 border-t border-slate-200/60 flex items-center justify-between text-blue-700 font-bold text-sm">
@@ -1387,24 +1787,74 @@ function AppContent() {
 
           <section id="research" className="py-24 bg-white">
             <div className="container mx-auto px-6">
-              <SectionTitle subtitle="Espacio destinado a las nuevas líneas y áreas de trabajo que se incorporarán próximamente en el laboratorio.">
+              <SectionTitle subtitle="Líneas de investigación institucionales que articulan inteligencia artificial, procesamiento avanzado de señales y tecnologías biomédicas traslacionales.">
                 Líneas de Investigación
               </SectionTitle>
-              
-              <div className="max-w-3xl mx-auto text-center p-10 sm:p-12 bg-slate-50/80 border-2 border-dashed border-slate-200 rounded-3xl">
-                <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-sm">
-                  <Cpu size={32} />
+
+              {/* Grid de las 4 líneas oficiales */}
+              <div className="grid md:grid-cols-2 gap-8 mb-12">
+                {(lineasInvestigacion || []).map((linea) => (
+                  <div
+                    key={linea.id}
+                    className="group bg-slate-50/70 hover:bg-white rounded-3xl p-8 border border-slate-200 hover:border-blue-300 hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between gap-3 mb-5">
+                        <span className="px-3 py-1 rounded-full text-xs font-bold bg-teal-100 text-teal-800 border border-teal-200">
+                          {linea.badge}
+                        </span>
+                        <span className="text-3xl font-black text-slate-300 group-hover:text-blue-500 transition-colors">
+                          {linea.numero}
+                        </span>
+                      </div>
+                      <div className="flex items-start gap-4 mb-4">
+                        <div className="p-3 rounded-2xl bg-white shadow-sm border border-slate-100 shrink-0 group-hover:scale-105 transition-transform">
+                          {linea.id === 1 ? <Brain className="w-7 h-7 text-purple-600" /> :
+                           linea.id === 2 ? <Activity className="w-7 h-7 text-teal-600" /> :
+                           linea.id === 3 ? <HeartPulse className="w-7 h-7 text-rose-600" /> :
+                                            <Cpu className="w-7 h-7 text-blue-600" />}
+                        </div>
+                        <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-700 transition-colors leading-snug">
+                          {linea.titulo}
+                        </h3>
+                      </div>
+                      <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                        {linea.descripcion}
+                      </p>
+                    </div>
+                    <div className="pt-4 border-t border-slate-200/60 mt-auto flex items-center justify-between text-xs text-slate-500">
+                      <span className="font-semibold text-slate-700">Enfoque metodológico riguroso</span>
+                      <button
+                        type="button"
+                        onClick={() => navigateTo('what-we-do')}
+                        className="inline-flex items-center gap-1 font-bold text-blue-600 hover:text-blue-800 cursor-pointer"
+                      >
+                        Ver proyectos <ChevronRight size={14} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Banner de Articulación de Líneas */}
+              <div className="bg-gradient-to-r from-blue-900 via-slate-900 to-teal-900 rounded-3xl p-8 sm:p-10 text-white shadow-lg flex flex-col lg:flex-row items-center justify-between gap-8">
+                <div className="max-w-3xl">
+                  <span className="text-xs font-bold uppercase tracking-wider text-teal-300 block mb-2">
+                    Articulación Científica
+                  </span>
+                  <h4 className="text-xl sm:text-2xl font-bold mb-3">
+                    Integración y Sinergia de las Líneas
+                  </h4>
+                  <p className="text-slate-200 text-sm sm:text-base leading-relaxed">
+                    {institutionalInfo?.articulacionLineas}
+                  </p>
                 </div>
-                <h3 className="text-xl font-bold text-slate-800 mb-2">Sección en Actualización</h3>
-                <p className="text-slate-500 text-sm leading-relaxed max-w-lg mx-auto mb-6">
-                  Espacio reservado para la incorporación de las nuevas tarjetas y líneas de investigación del Laboratorio LaTSIB.
-                </p>
                 <button
                   type="button"
                   onClick={() => navigateTo('what-we-do')}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full font-semibold shadow-sm hover:bg-blue-700 transition-all cursor-pointer text-sm"
+                  className="shrink-0 px-7 py-3.5 bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold rounded-xl transition-all shadow-md cursor-pointer text-sm flex items-center gap-2"
                 >
-                  Conoce qué hacemos en LaTSIB <ChevronRight size={16} />
+                  Explorar Proyectos y Metodologías <ChevronRight size={16} />
                 </button>
               </div>
             </div>

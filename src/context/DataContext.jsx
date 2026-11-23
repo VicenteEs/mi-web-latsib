@@ -6,6 +6,8 @@ import {
   INITIAL_PUBLICACIONES,
   INITIAL_ACTIVIDADES,
   INITIAL_PROYECTOS,
+  INSTITUTIONAL_INFO,
+  LINEAS_INVESTIGACION,
   DEFAULT_USERS,
   INITIAL_HISTORIAL,
   INVITATION_TEMPLATE
@@ -15,11 +17,11 @@ import { generateToken, generate2FACode } from '../utils/security';
 const DataContext = createContext(null);
 
 const STORAGE_KEYS = {
-  CONFIG: 'latsib_config_v6',
+  CONFIG: 'latsib_config_v7',
   EQUIPO: 'latsib_equipo_v11',
   PUBLICACIONES: 'latsib_publicaciones_v4',
   ACTIVIDADES: 'latsib_actividades_v4',
-  PROYECTOS: 'latsib_proyectos_v3',
+  PROYECTOS: 'latsib_proyectos_v4',
   HISTORIAL: 'latsib_historial_v4',
   USERS: 'latsib_users_v3',
   INVITATIONS: 'latsib_invitations_v3',
@@ -716,6 +718,8 @@ export const DataProvider = ({ children }) => {
     publicaciones,
     actividades,
     proyectos,
+    institutionalInfo: INSTITUTIONAL_INFO,
+    lineasInvestigacion: LINEAS_INVESTIGACION,
     historial,
     users,
     invitations,
