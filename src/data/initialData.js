@@ -7,7 +7,8 @@
 export const INITIAL_CONFIG = {
   nombreGrupo: "LaTSIB",
   nombreCompleto: "Laboratorio de Biomédica Traslacional",
-  mision: "El Laboratorio de Biomédica Traslacional (LaTSIB) de la Universidad Tecnológica Metropolitana (UTEM), une la ingeniería, la ciencia de datos y la medicina para transformar datos biológicos complejos en soluciones de salud reales y no invasivas. Desarrollamos investigación aplicada en ingeniería biomédica con un enfoque traslacional, integrando análisis de señales fisiológicas, procesamiento de imágenes médicas, ciencia de datos e inteligencia artificial. Su objetivo es generar conocimiento y soluciones tecnológicas que conecten la investigación en ingeniería con necesidades clínicas reales, contribuyendo al diagnóstico, monitoreo y comprensión de procesos fisiológicos y patológicos.",
+  mision: "El Laboratorio de Biomédica Traslacional (LaTSIB) tiene como misión desarrollar investigación científica, tecnológica e interdisciplinaria en el ámbito de la ingeniería biomédica, integrando inteligencia artificial, procesamiento avanzado de señales e imágenes biomédicas y tecnologías no invasivas para contribuir a la comprensión de procesos fisiológicos, la identificación de biomarcadores funcionales y el desarrollo de soluciones innovadoras orientadas a los desafíos de la salud. Asimismo, promueve la formación de capital humano avanzado en investigación mediante la incorporación temprana y progresiva de estudiantes de pregrado y postgrado a proyectos científicos y tecnológicos, fortaleciendo sus competencias investigativas, el pensamiento crítico, la colaboración interdisciplinaria y la generación de conocimiento con impacto científico, clínico y social.",
+  vision: "Consolidarse como un laboratorio de referencia nacional y con proyección internacional en investigación biomédica traslacional, reconocido por la excelencia científica, el desarrollo de metodologías y tecnologías innovadoras, y la generación de conocimiento que contribuya a mejorar la evaluación, comprensión y abordaje de problemas relevantes en salud. LaTSIB aspira a constituirse en un espacio de formación e investigación interdisciplinaria que impulse el desarrollo de nuevas generaciones de investigadores, promoviendo vocaciones científicas desde el pregrado, fortaleciendo la continuidad hacia estudios de postgrado y favoreciendo la colaboración entre la academia, los centros de investigación, las instituciones de salud y el sector tecnológico.",
   email: "latsibutem@gmail.com",
   direccion: "Av. José Pedro Alessandri 1242, Ñuñoa, Región Metropolitana, Chile",
   year: 2026,
@@ -17,6 +18,117 @@ export const INITIAL_CONFIG = {
     hero: "/image.jpg"
   }
 };
+
+export const INSTITUTIONAL_INFO = {
+  presentacion: "El Laboratorio de Biomédica Traslacional (LaTSIB) de la Universidad Tecnológica Metropolitana (UTEM) se proyecta como un espacio de investigación interdisciplinaria y de formación científica orientado a vincular la ingeniería biomédica con problemas relevantes del área de la salud. Su propuesta integra inteligencia artificial, análisis de señales e imágenes y tecnologías no invasivas, con énfasis en la generación y evaluación de conocimiento para posibles aplicaciones clínicas.",
+  mision: "El Laboratorio de Biomédica Traslacional (LaTSIB) tiene como misión desarrollar investigación científica, tecnológica e interdisciplinaria en el ámbito de la ingeniería biomédica, integrando inteligencia artificial, procesamiento avanzado de señales e imágenes biomédicas y tecnologías no invasivas para contribuir a la comprensión de procesos fisiológicos, la identificación de biomarcadores funcionales y el desarrollo de soluciones innovadoras orientadas a los desafíos de la salud.\n\nAsimismo, promueve la formación de capital humano avanzado en investigación mediante la incorporación temprana y progresiva de estudiantes de pregrado y postgrado a proyectos científicos y tecnológicos, fortaleciendo sus competencias investigativas, el pensamiento crítico, la colaboración interdisciplinaria y la generación de conocimiento con impacto científico, clínico y social.",
+  vision: "Consolidarse como un laboratorio de referencia nacional y con proyección internacional en investigación biomédica traslacional, reconocido por la excelencia científica, el desarrollo de metodologías y tecnologías innovadoras, y la generación de conocimiento que contribuya a mejorar la evaluación, comprensión y abordaje de problemas relevantes en salud.\n\nLaTSIB aspira a constituirse en un espacio de formación e investigación interdisciplinaria que impulse el desarrollo de nuevas generaciones de investigadores, promoviendo vocaciones científicas desde el pregrado, fortaleciendo la continuidad hacia estudios de postgrado y favoreciendo la colaboración entre la academia, los centros de investigación, las instituciones de salud y el sector tecnológico.",
+  ejesEstrategicos: [
+    {
+      numero: "01",
+      titulo: "Investigación científica y desarrollo tecnológico",
+      descripcion: "Generar conocimiento y desarrollar herramientas computacionales y biomédicas mediante inteligencia artificial, análisis de señales e imágenes y tecnologías no invasivas. Este eje orienta la formulación de preguntas de investigación, el desarrollo de métodos y la evaluación de resultados, promoviendo el rigor metodológico, la documentación y la reproducibilidad."
+    },
+    {
+      numero: "02",
+      titulo: "Formación temprana de investigadores y capital humano avanzado",
+      descripcion: "Incorporar a estudiantes de pregrado en experiencias reales de investigación, fomentando su participación en proyectos, publicaciones científicas, congresos y actividades de colaboración, y facilitando su proyección hacia estudios de magíster y de doctorado. La formación científica se plantea como una función sustantiva del laboratorio."
+    },
+    {
+      numero: "03",
+      titulo: "Investigación traslacional e impacto en salud",
+      descripcion: "Vincular los desarrollos científicos y tecnológicos con las necesidades reales del ámbito clínico, favoreciendo su evaluación, validación y eventual transferencia a entornos de salud. Propone una relación continua entre las preguntas fisiológicas, el desarrollo tecnológico y la evaluación de la pertinencia clínica."
+    },
+    {
+      numero: "04",
+      titulo: "Colaboración interdisciplinaria y vinculación científica",
+      descripcion: "Fortalecer las redes de colaboración nacionales e internacionales entre la ingeniería, las ciencias de datos, la medicina y otras disciplinas relacionadas con la salud, favoreciendo proyectos conjuntos, intercambio de conocimientos y acompañamiento formativo respetando sus responsabilidades y ámbitos de competencia."
+    }
+  ],
+  articulacionLineas: "Las cuatro líneas se complementan: el procesamiento de señales genera información fisiológica; la inteligencia artificial permite explorar patrones y relaciones; los biomarcadores organizan esa información en indicadores funcionales; y el desarrollo tecnológico examina su aplicación a problemas concretos. Esta articulación orienta la propuesta científica sin equiparar automáticamente la trayectoria personal del investigador con la totalidad de las capacidades institucionales de LaTSIB.",
+  formacionPregrado: {
+    titulo: "Formación científica desde el pregrado",
+    subtitulo: "Desarrollo del capital humano en investigación",
+    introduccion: "LaTSIB propone asumir la formación temprana de capital humano avanzado en investigación como un componente central de su identidad académica. Esto implica integrar progresivamente a estudiantes de pregrado en experiencias científicas reales, con acompañamiento, continuidad y oportunidades para desarrollar su autonomía, promoviendo una trayectoria que conecte la iniciación científica, el trabajo de titulación, la formación de postgrado y el desarrollo de investigadores independientes.",
+    infografia: "/trayectoria-formacion.png",
+    etapas: [
+      {
+        paso: "01",
+        nombre: "Iniciación Científica",
+        alcance: "Pregrado e iniciación temprana",
+        descripcion: "Acercamiento a las preguntas de investigación, lectura crítica, fundamentos metodológicos, ética de la investigación y participación supervisada en ayudantías o proyectos."
+      },
+      {
+        paso: "02",
+        nombre: "Investigación Avanzada",
+        alcance: "Trabajo de titulación y tesis",
+        descripcion: "Desarrollo de tesis y trabajos de investigación, análisis e interpretación de datos, documentación de métodos y comunicación de resultados mediante informes, congresos y publicaciones según la contribución realizada."
+      },
+      {
+        paso: "03",
+        nombre: "Postgrado",
+        alcance: "Magíster y doctorado",
+        descripcion: "Proyección hacia estudios de postgrado, profundización metodológica, participación en redes científicas y desarrollo de investigaciones de mayor complejidad y autonomía, en articulación con los programas e instituciones correspondientes."
+      },
+      {
+        paso: "04",
+        nombre: "Investigadores Independientes",
+        alcance: "Liderazgo científico y transferencia",
+        descripcion: "Desarrollo progresivo de liderazgo científico, formulación de proyectos, supervisión de nuevos investigadores y generación y transferencia de conocimiento."
+      }
+    ],
+    acompanamiento: "Se propone organizar la formación mediante objetivos de aprendizaje y responsabilidades progresivas, con tutoría, retroalimentación y seguimiento. El pensamiento crítico, la colaboración interdisciplinaria, la integridad científica y el tratamiento responsable de los datos deben acompañar todas las etapas.",
+    principioOrientador: "LaTSIB entiende la investigación no solo como un medio para generar conocimiento, sino también como un proceso formativo que permite desarrollar nuevas generaciones de científicos e ingenieros capaces de abordar, desde una perspectiva interdisciplinaria, los desafíos presentes y futuros de la salud.",
+    notaPie: "Trayectoria formativa que LaTSIB busca promover, sin que necesariamente todos los integrantes recorran cada etapa."
+  }
+};
+
+export const LINEAS_INVESTIGACION = [
+  {
+    id: 1,
+    numero: "01",
+    titulo: "Inteligencia artificial para señales e imágenes",
+    nombreCompleto: "Inteligencia artificial y aprendizaje automático (IA/ML) aplicados a señales e imágenes biomédicas",
+    descripcion: "Desarrollo y evaluación de metodologías de inteligencia artificial y aprendizaje automático para el análisis de señales e imágenes biomédicas, orientadas a reconocer patrones, extraer información fisiológica relevante y apoyar la caracterización de condiciones de salud.",
+    enfoque: "Esta línea considera la integración de datos biomédicos, la selección de características y la construcción de modelos predictivos o de clasificación. Su desarrollo requiere examinar la calidad de los datos, la interpretabilidad, la generalización y la reproducibilidad de los modelos, de acuerdo con el problema de investigación y su eventual contexto de uso.",
+    badge: "IA / Machine Learning",
+    icono: "Brain",
+    proyectosCount: 2
+  },
+  {
+    id: 2,
+    numero: "02",
+    titulo: "Procesamiento avanzado de señales fisiológicas",
+    nombreCompleto: "Procesamiento avanzado de señales fisiológicas (ECG/ECGI, fNIRS, neurovasculares y acústicas)",
+    descripcion: "Investigación y desarrollo de métodos avanzados de procesamiento de señales fisiológicas para estudiar la actividad cardíaca, la dinámica hemodinámica y neurovascular, y las manifestaciones acústicas de procesos biológicos, incluyendo electrocardiografía (ECG), electromiografía (EGM), electroencefalografía (EEG) y espectroscopía funcional de infrarrojo cercano (fNIRS).",
+    enfoque: "Su alcance comprende el tratamiento del ruido y los artefactos, el análisis temporal, espectral y tiempo-frecuencia, y la integración de señales complementarias. Estas herramientas buscan describir procesos fisiológicos y sus relaciones, con criterios de calidad de la medición y de consistencia metodológica.",
+    badge: "Señales Fisiológicas & fNIRS",
+    icono: "Activity",
+    proyectosCount: 2
+  },
+  {
+    id: 3,
+    numero: "03",
+    titulo: "Biomarcadores funcionales no invasivos",
+    nombreCompleto: "Identificación y estudio de biomarcadores funcionales no invasivos",
+    descripcion: "Identificación, caracterización y evaluación de biomarcadores funcionales obtenidos mediante mediciones no invasivas, orientados a describir el estado y la respuesta de sistemas fisiológicos y a explorar su utilidad para la evaluación y el seguimiento de condiciones de salud.",
+    enfoque: "Esta línea articula el análisis de señales e imágenes con preguntas fisiológicas y clínicas. Considera el estudio de la repetibilidad, la sensibilidad a los cambios funcionales y la relación de los indicadores con las referencias pertinentes. La eventual utilidad clínica de un biomarcador deberá sustentarse en procesos de validación acordes con su aplicación prevista.",
+    badge: "Biomarcadores Funcionales",
+    icono: "HeartPulse",
+    proyectosCount: 2
+  },
+  {
+    id: 4,
+    numero: "04",
+    titulo: "Tecnologías para rehabilitación y traslación",
+    nombreCompleto: "Tecnologías para la neurorrehabilitación, la deglución y las aplicaciones traslacionales",
+    descripcion: "Investigación y desarrollo de tecnologías biomédicas orientadas a la neurorrehabilitación y al estudio de la deglución, mediante la integración de la adquisición de señales, el análisis computacional y los indicadores funcionales no invasivos, con proyección hacia aplicaciones traslacionales.",
+    enfoque: "Esta línea busca conectar preguntas de investigación con necesidades de evaluación, seguimiento y apoyo a procesos de rehabilitación. Puede comprender métodos, herramientas y prototipos cuya pertinencia, usabilidad y desempeño se estudien en colaboración con profesionales de salud y otras disciplinas, antes de considerar su eventual transferencia.",
+    badge: "Rehabilitación & Traslación",
+    icono: "Cpu",
+    proyectosCount: 2
+  }
+];
 
 export const INITIAL_CATEGORIAS_EQUIPO = [
   { id: 'academicos', titulo: 'Equipo Científico y Profesional' },
@@ -629,11 +741,49 @@ export const INITIAL_ACTIVIDADES = [
 ];
 
 export const INITIAL_PROYECTOS = [
+  // --- LÍNEA 1: Inteligencia artificial para señales e imágenes ---
+  {
+    id: 2,
+    titulo: "Construcción de un Chatbot Médico",
+    badge: "IA & Visión Computacional",
+    linea: "Inteligencia artificial para señales e imágenes",
+    lineaId: 1,
+    desc: "Esta línea de investigación aborda el desarrollo de soluciones basadas en inteligencia artificial para mejorar el acceso, la búsqueda y el uso de información técnica sobre instrumental médico, un proceso que actualmente resulta lento y propenso a errores en entornos clínicos y administrativos. El trabajo se centra en transformar catálogos médicos no estructurados —como documentos escaneados o archivos PDF— en sistemas inteligentes capaces de comprender texto e imágenes, organizar la información y responder consultas en lenguaje natural. Para ello, se integran técnicas de visión por computador, reconocimiento óptico de caracteres y modelos avanzados de recuperación de información, dando origen a un asistente conversacional que facilita la identificación precisa de instrumentos médicos y sus características técnicas. Esta investigación busca optimizar la toma de decisiones, reducir tiempos de búsqueda y apoyar tanto al personal de salud como a equipos administrativos, contribuyendo a procesos más eficientes, seguros y modernos. Además, presenta un alto potencial de transferencia tecnológica y aplicación práctica en hospitales y centros de salud.",
+    color: "from-[#2f9fb3]/10 to-[#2f9fb3]/20 border-[#2f9fb3]/20",
+    integrantes: ["Juan Toledo-Fierro", "Andrés Vega-Moraga", "Esteban Gomez-Teran", "Bruno Sainz-Silva", "Jorge Vergara-Quezada", "Marcia Toloza", "Raúl Caulier-Cisterna"],
+    imagenes: [
+      { url: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&q=80&w=800", desc: "Interfaz del asistente virtual médico." },
+      { url: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&q=80&w=800", desc: "Arquitectura del modelo LLM utilizado." }
+    ],
+    documentos: [
+      { titulo: "Póster: De la Imagen al Conocimiento: Integración de OCR, YOLO y RAG en la Construcción de un Chatbot Médico.", tipo: "Poster", link: "https://drive.google.com/file/d/1olc7S9Jr1YzouvzKyOvbRCHWb7dsmo__/view?usp=drive_link" }
+    ]
+  },
+  {
+    id: 5,
+    titulo: "Clasificación automática de la deglución con inteligencia artificial",
+    badge: "Machine Learning Acústico",
+    linea: "Inteligencia artificial para señales e imágenes",
+    lineaId: 1,
+    desc: "Esta línea de investigación busca desarrollar herramientas tecnológicas que permitan detectar de forma temprana y no invasiva los trastornos de la deglución, un problema frecuente en pacientes hospitalizados y especialmente en personas con riesgo de aspiración o complicaciones respiratorias. El estudio utiliza grabaciones de sonido tomadas desde el cuello durante el acto de tragar, las cuales contienen información valiosa sobre cómo funciona el proceso de deglución. A partir de estas señales acústicas, se construyen representaciones que son analizadas mediante modelos de inteligencia artificial capaces de aprender patrones y distinguir entre personas sanas y pacientes con alteraciones deglutorias. La investigación demuestra que es posible automatizar este proceso con buenos niveles de precisión, lo que abre la puerta a crear sistemas de apoyo clínico que complementen o, en algunos casos, sustituyan exámenes más complejos, costosos o invasivos como la videofluoroscopia. Esto resulta especialmente relevante para pacientes que no pueden someterse fácilmente a estos estudios o para contextos donde el acceso a equipamiento especializado es limitado. En proyección, esta línea apunta a facilitar el diagnóstico oportuno de la disfagia, reducir riesgos clínicos y apoyar la toma de decisiones médicas mediante herramientas objetivas, rápidas y basadas en análisis automático de señales biomédicas.",
+    color: "from-[#2f9fb3]/10 to-[#2f9fb3]/20 border-[#2f9fb3]/20",
+    integrantes: ["Vicente Escudero", "David Sepúlveda-Velásquez", "Glenn Lanyon-Alarcón", "Andrés Vega-Moraga", "Jorge Vergara-Quezada", "Constanza Echeverría", "Rodrigo Tobar-Fredes", "Gustavo Schleyer", "Patricio Fuentealba", "Raúl Caulier-Cisterna"],
+    imagenes: [
+      { url: "https://i.postimg.cc/bvmXJ8N5/Diseno-sin-titulo-(3).png", desc: "Dispositivo de adquisición de audio desarrollo del proyecto Suseso 306-2023" },
+      { url: "https://i.postimg.cc/R0ZSGgWg/Imagen-de-referencia.png", desc: "Espectrogramas de señales deglutorias capturadas durante el proceso de deglución" }
+    ],
+    documentos: [
+      { titulo: "Paper: Clasificación Automática de Señales Deglutorias Utilizando Machine Learning", tipo: "Paper", link: "https://drive.google.com/file/d/1YxCNRyKqC9ovUtsG0BlElTK3uFkcfOt-/view?usp=drive_link" }
+    ]
+  },
+
+  // --- LÍNEA 2: Procesamiento avanzado de señales fisiológicas ---
   {
     id: 1,
     titulo: "Respuesta neurovascular peri-espinal evaluada con fNIRS",
-    badge: "",
-    linea: "Neuroingeniería y Señales",
+    badge: "fNIRS & Neuroingeniería",
+    linea: "Procesamiento avanzado de señales fisiológicas",
+    lineaId: 2,
     desc: "Esta línea de investigación se centra en el estudio del funcionamiento de la médula espinal humana utilizando una técnica no invasiva llamada espectroscopía funcional de infrarrojo cercano (fNIRS). El objetivo principal es comprender cómo responde el sistema nervioso espinal ante distintos estímulos sensoriales, observando cambios en la oxigenación de la médula espinal en tiempo real. A través de la estimulación controlada de nervios periféricos del brazo y la pierna en voluntarios sanos, se analizan patrones de respuesta neurovascular en distintas regiones de la médula espinal. Estos patrones permiten identificar diferencias temporales en la forma en que la médula procesa la información sensorial, aportando una base de referencia sobre el funcionamiento normal del sistema espinal. Los resultados de este trabajo contribuyen a establecer modelos fisiológicos normativos que pueden servir como punto de comparación para futuras investigaciones clínicas. En el largo plazo, esta línea busca apoyar el desarrollo de biomarcadores funcionales que ayuden a detectar alteraciones neurológicas de forma temprana, segura y sin procedimientos invasivos, con potencial aplicación en el estudio de lesiones medulares, dolor crónico y otras condiciones neurológicas.",
     color: "from-[#1f7a8c]/10 to-[#1f7a8c]/20 border-[#1f7a8c]/20",
     integrantes: ["Matías Gajardo de la Fuente", "Andrés Vega-Moraga", "Glenn Lanyon-Alarcón", "Ana Moya-Beltrán", "Sergio Uribe", "Jorge Vergara-Quezada", "Antonio Eblen-Zajjur", "Raúl Caulier-Cisterna"],
@@ -647,26 +797,60 @@ export const INITIAL_PROYECTOS = [
     ]
   },
   {
-    id: 2,
-    titulo: "Construcción de un Chatbot Médico",
-    badge: "",
-    linea: "Inteligencia Artificial y NLP",
-    desc: "Esta línea de investigación aborda el desarrollo de soluciones basadas en inteligencia artificial para mejorar el acceso, la búsqueda y el uso de información técnica sobre instrumental médico, un proceso que actualmente resulta lento y propenso a errores en entornos clínicos y administrativos. El trabajo se centra en transformar catálogos médicos no estructurados —como documentos escaneados o archivos PDF— en sistemas inteligentes capaces de comprender texto e imágenes, organizar la información y responder consultas en lenguaje natural. Para ello, se integran técnicas de visión por computador, reconocimiento óptico de caracteres y modelos avanzados de recuperación de información, dando origen a un asistente conversacional que facilita la identificación precisa de instrumentos médicos y sus características técnicas. Esta investigación busca optimizar la toma de decisiones, reducir tiempos de búsqueda y apoyar tanto al personal de salud como a equipos administrativos, contribuyendo a procesos más eficientes, seguros y modernos. Además, presenta un alto potencial de transferencia tecnológica y aplicación práctica en hospitales y centros de salud.",
-    color: "from-[#2f9fb3]/10 to-[#2f9fb3]/20 border-[#2f9fb3]/20",
-    integrantes: ["Juan Toledo-Fierro", "Andrés Vega-Moraga", "Esteban Gomez-Teran", "Bruno Sainz-Silva", "Jorge Vergara-Quezada", "Marcia Toloza", "Raúl Caulier-Cisterna"],
-    imagenes: [
-      { url: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&q=80&w=800", desc: "Interfaz del asistente virtual médico." },
-      { url: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&q=80&w=800", desc: "Arquitectura del modelo LLM utilizado." }
-    ],
+    id: 7,
+    titulo: "Software en Python para analizar la respuesta neurovascular espinal",
+    badge: "Software Científico",
+    linea: "Procesamiento avanzado de señales fisiológicas",
+    lineaId: 2,
+    desc: "Esta línea de investigación se centra en el desarrollo de un software en Python para el análisis de la respuesta neurovascular de la médula espinal, medida mediante una técnica no invasiva llamada espectroscopía funcional de infrarrojo cercano (fNIRS). Esta técnica permite observar cambios en la oxigenación de la sangre asociados a la actividad funcional de la médula, algo que no puede evaluarse directamente con exámenes tradicionales como la resonancia o el escáner. El trabajo combina fNIRS con estimulación eléctrica indolora de nervios periféricos para provocar una respuesta medible en distintos niveles de la columna. A partir de estos datos, el software procesa las señales, elimina ruido, calcula indicadores fisiológicos relevantes y permite caracterizar cómo responde la red neurovascular peri-espinal. Un aspecto clave del estudio es la validación del software en Python mediante la comparación directa con herramientas previamente desarrolladas en MATLAB, mostrando resultados consistentes en la mayoría de las variables analizadas. Esto confirma que la nueva plataforma es una alternativa confiable, más flexible y accesible para el análisis de este tipo de señales. En conjunto, esta línea busca facilitar y estandarizar el análisis de datos fNIRS en columna, apoyando la investigación y abriendo el camino hacia futuras aplicaciones clínicas orientadas a la evaluación funcional de patologías espinales que no presentan cambios estructurales evidentes.",
+    color: "from-[#1f7a8c]/10 to-[#1f7a8c]/20 border-[#1f7a8c]/20",
+    integrantes: ["Glenn Lanyon-Alarcon", "Andrés Vega-Moraga", "Jorge Vergara-Quezada", "Ana Moya-Beltrán", "Sergio Uribe", "Antonio Eblen-Zajjur", "Raúl Caulier-Cisterna"],
+    imagenes: [],
     documentos: [
-      { titulo: "Póster: De la Imagen al Conocimiento: Integración de OCR, YOLO y RAG en la Construcción de un Chatbot Médico.", tipo: "Poster", link: "https://drive.google.com/file/d/1olc7S9Jr1YzouvzKyOvbRCHWb7dsmo__/view?usp=drive_link" }
+      { titulo: "Póster: Software en Python para el análisis de la respuesta neurovascular peri-espinal obtenida con fNIRS", tipo: "Paper", link: "https://drive.google.com/file/d/1M2yYsle0MGrwIyioQ5rDqTlrZI8cvYOb/view?usp=drive_link" }
+    ]
+  },
+
+  // --- LÍNEA 3: Biomarcadores funcionales no invasivos ---
+  {
+    id: 4,
+    titulo: "Nuevos biomarcadores para la respuesta neurovascular espinal",
+    badge: "Biomarcadores Funcionales",
+    linea: "Biomarcadores funcionales no invasivos",
+    lineaId: 3,
+    desc: "Este trabajo se centra en el desarrollo de nuevas formas de evaluar el funcionamiento de la médula espinal, más allá de lo que permiten las imágenes médicas tradicionales como la resonancia o el escáner, que muestran principalmente su estructura pero no su actividad funcional. La investigación utiliza una técnica no invasiva llamada espectroscopía funcional de infrarrojo cercano (fNIRS), que permite medir cambios en la oxigenación de la sangre asociados a la actividad del sistema nervioso. En particular, se estudia cómo responde la red neurovascular que rodea la médula espinal cuando se aplica una estimulación eléctrica suave en un nervio de la pierna. A partir de estas mediciones, el estudio propone tres nuevos biomarcadores que describen con mayor detalle cómo evoluciona esa respuesta de oxigenación en el tiempo: cuánto “recorre” la señal durante su fase de aumento, qué tan rápido crece y cuánta activación total se acumula. Estos indicadores se evaluaron en un grupo de voluntarios sanos, comparando las respuestas en la zona cervical y lumbar de la columna. Los resultados muestran que la región lumbar presenta una respuesta más prolongada y de mayor magnitud que la cervical, y además más consistente entre personas. Esto sugiere que estos nuevos biomarcadores permiten describir mejor el funcionamiento de la médula espinal que las medidas clásicas usadas hasta ahora. En proyección, esta línea de investigación busca sentar las bases para desarrollar herramientas que permitan detectar alteraciones funcionales de la médula espinal que hoy no son visibles con exámenes estructurales, por ejemplo en personas con dolor crónico u otros trastornos de origen espinal.",
+    color: "from-[#2f9fb3]/10 to-[#2f9fb3]/20 border-[#2f9fb3]/20",
+    integrantes: ["David Sepúlveda-Velásquez", "Andrés Vega-Moraga", "Glenn Lanyon-Alarcón", "Ana Moya-Beltrán", "Sergio Uribe", "Jorge Vergara-Quezada", "Antonio Eblen-Zajjur", "Raúl Caulier-Cisterna"],
+    imagenes: [],
+    documentos: [
+      { titulo: "Paper: Nuevos biomarcadores para la respuesta neurovascular espinal", tipo: "Paper", link: "https://drive.google.com/file/d/1CNV_04HOabK2WFDNmT39IaYB0YURJxVN/view?usp=drive_link" }
     ]
   },
   {
+    id: 8,
+    titulo: "Respuesta neurovascular espinal y período refractario",
+    badge: "Neurofisiología & fNIRS",
+    linea: "Biomarcadores funcionales no invasivos",
+    lineaId: 3,
+    desc: "Esta línea de investigación estudia cómo responde la médula espinal a estímulos eléctricos suaves y no invasivos, utilizando una técnica llamada espectroscopía funcional de infrarrojo cercano (fNIRS), que permite medir cambios en la oxigenación de la sangre asociados a la actividad del sistema nervioso. El objetivo principal es explorar la existencia de un llamado período refractario neurovascular, es decir, un intervalo de tiempo en el que la médula espinal no logra generar una respuesta completa si los estímulos se aplican demasiado seguido. Para ello, se aplican estímulos con tiempos de espera cada vez más cortos y se observa cómo cambia la señal registrada. Los resultados muestran que, cuando los estímulos se aplican con intervalos muy breves, la respuesta neurovascular disminuye progresivamente, especialmente en la región cervical, lo que entrega evidencia preliminar de este fenómeno de refractariedad. También se observan diferencias entre las zonas cervical y lumbar, lo que sugiere que la respuesta de la médula no es uniforme a lo largo de la columna. En proyección, esta línea de trabajo busca comprender mejor el funcionamiento dinámico de la médula espinal y sentar las bases para utilizar estas mediciones como biomarcadores funcionales, con potencial aplicación en el estudio de dolor neuropático, lesiones medulares y otras condiciones donde los exámenes estructurales tradicionales no muestran alteraciones claras.",
+    color: "from-[#2f9fb3]/10 to-[#2f9fb3]/20 border-[#2f9fb3]/20",
+    integrantes: ["Glenn Lanyon-Alarcón", "Vicente Escudero-Durana", "Ana Moya-Beltrán", "Jorge Vergara-Quezada", "Sergio Uribe", "Antonio Eblen-Zajjur", "Raúl Caulier-Cisterna"],
+    imagenes: [
+      { url: "https://i.postimg.cc/RC8tjH9h/Diseno-sin-titulo-(1).jpg", desc: "Posición de los optodos y estimulador." },
+      { url: "https://i.postimg.cc/43bbGNPF/unnamed.jpg", desc: "Representación esquemática del período refractario neurovascular en la médula espinal medido mediante fNIRS." }
+    ],
+    documentos: [
+      { titulo: "Póster: Registro de la respuesta neurovascular peri-espinal y detección del período refractario con espectroscopía funcional de infrarrojo cercano", tipo: "Paper", link: "https://drive.google.com/file/d/16sQsgMSYrIOBWN7szBeBbepGM3MG72f2/view?usp=drive_link" }
+    ]
+  },
+
+  // --- LÍNEA 4: Tecnologías para rehabilitación y traslación ---
+  {
     id: 3,
     titulo: "Sistema Inteligente para Laringe Electrónica",
-    badge: "Trabajo de título",
-    linea: "Tecnologías Asistivas y Voz",
+    badge: "Trabajo de título · Asistivo",
+    linea: "Tecnologías para rehabilitación y traslación",
+    lineaId: 4,
     desc: "Esta línea de investigación se centra en el desarrollo de un sistema inteligente para mejorar la calidad de la voz generada por dispositivos de laringe electrónica, utilizados por personas que han perdido la capacidad de hablar tras una laringectomía total. Aunque estos dispositivos permiten la comunicación, la voz producida suele ser poco natural, metálica y difícil de comprender, lo que impacta negativamente en la calidad de vida y la integración social de los usuarios. El proyecto propone el uso de técnicas de inteligencia artificial para procesar el habla electrolaríngea y transformarla en una voz más clara, natural e inteligible. Para ello, se capturan señales de voz generadas por una laringe electrónica y se procesan mediante modelos avanzados de reconocimiento y síntesis de voz, permitiendo convertir el sonido original en una señal de mayor calidad auditiva. Los resultados iniciales muestran que la efectividad del sistema depende tanto de la tecnología utilizada como del correcto uso del dispositivo por parte del usuario, destacando la importancia de una adecuada articulación y posicionamiento. Este enfoque representa una solución prometedora para mejorar la comunicación asistida y sienta las bases para futuras evaluaciones clínicas con pacientes, con el objetivo final de contribuir a una mejor calidad de vida y autonomía comunicativa.",
     color: "from-[#1e5c6b]/10 to-[#1e5c6b]/20 border-[#1e5c6b]/20",
     integrantes: ["Ignacio López-Concha", "Andrés Vega-Moraga", "Jorge Vergara-Quezada", "Marcia Toloza", "Raúl Caulier-Cisterna"],
@@ -681,74 +865,17 @@ export const INITIAL_PROYECTOS = [
     ]
   },
   {
-    id: 4,
-    titulo: "Nuevos biomarcadores para la respuesta neurovascular espinal",
-    badge: "",
-    linea: "Biomarcadores y fNIRS",
-    desc: "Este trabajo se centra en el desarrollo de nuevas formas de evaluar el funcionamiento de la médula espinal, más allá de lo que permiten las imágenes médicas tradicionales como la resonancia o el escáner, que muestran principalmente su estructura pero no su actividad funcional. La investigación utiliza una técnica no invasiva llamada espectroscopía funcional de infrarrojo cercano (fNIRS), que permite medir cambios en la oxigenación de la sangre asociados a la actividad del sistema nervioso. En particular, se estudia cómo responde la red neurovascular que rodea la médula espinal cuando se aplica una estimulación eléctrica suave en un nervio de la pierna. A partir de estas mediciones, el estudio propone tres nuevos biomarcadores que describen con mayor detalle cómo evoluciona esa respuesta de oxigenación en el tiempo: cuánto “recorre” la señal durante su fase de aumento, qué tan rápido crece y cuánta activación total se acumula. Estos indicadores se evaluaron en un grupo de voluntarios sanos, comparando las respuestas en la zona cervical y lumbar de la columna. Los resultados muestran que la región lumbar presenta una respuesta más prolongada y de mayor magnitud que la cervical, y además más consistente entre personas. Esto sugiere que estos nuevos biomarcadores permiten describir mejor el funcionamiento de la médula espinal que las medidas clásicas usadas hasta ahora. En proyección, esta línea de investigación busca sentar las bases para desarrollar herramientas que permitan detectar alteraciones funcionales de la médula espinal que hoy no son visibles con exámenes estructurales, por ejemplo en personas con dolor crónico u otros trastornos de origen espinal.",
-    color: "from-[#2f9fb3]/10 to-[#2f9fb3]/20 border-[#2f9fb3]/20",
-    integrantes: ["David Sepúlveda-Velásquez", "Andrés Vega-Moraga", "Glenn Lanyon-Alarcón", "Ana Moya-Beltrán", "Sergio Uribe", "Jorge Vergara-Quezada", "Antonio Eblen-Zajjur", "Raúl Caulier-Cisterna"],
-    imagenes: [],
-    documentos: [
-      { titulo: "Paper: Nuevos biomarcadores para la respuesta neurovascular espinal", tipo: "Paper", link: "https://drive.google.com/file/d/1CNV_04HOabK2WFDNmT39IaYB0YURJxVN/view?usp=drive_link" }
-    ]
-  },
-  {
-    id: 5,
-    titulo: "Clasificación automática de la deglución con inteligencia artificial",
-    badge: "",
-    linea: "Inteligencia Artificial Médica",
-    desc: "Esta línea de investigación busca desarrollar herramientas tecnológicas que permitan detectar de forma temprana y no invasiva los trastornos de la deglución, un problema frecuente en pacientes hospitalizados y especialmente en personas con riesgo de aspiración o complicaciones respiratorias. El estudio utiliza grabaciones de sonido tomadas desde el cuello durante el acto de tragar, las cuales contienen información valiosa sobre cómo funciona el proceso de deglución. A partir de estas señales acústicas, se construyen representaciones que son analizadas mediante modelos de inteligencia artificial capaces de aprender patrones y distinguir entre personas sanas y pacientes con alteraciones deglutorias. La investigación demuestra que es posible automatizar este proceso con buenos niveles de precisión, lo que abre la puerta a crear sistemas de apoyo clínico que complementen o, en algunos casos, sustituyan exámenes más complejos, costosos o invasivos como la videofluoroscopia. Esto resulta especialmente relevante para pacientes que no pueden someterse fácilmente a estos estudios o para contextos donde el acceso a equipamiento especializado es limitado. En proyección, esta línea apunta a facilitar el diagnóstico oportuno de la disfagia, reducir riesgos clínicos y apoyar la toma de decisiones médicas mediante herramientas objetivas, rápidas y basadas en análisis automático de señales biomédicas.",
-    color: "from-[#2f9fb3]/10 to-[#2f9fb3]/20 border-[#2f9fb3]/20",
-    integrantes: ["Vicente Escudero", "David Sepúlveda-Velásquez", "Glenn Lanyon-Alarcón", "Andrés Vega-Moraga", "Jorge Vergara-Quezada", "Constanza Echeverría", "Rodrigo Tobar-Fredes", "Gustavo Schleyer", "Patricio Fuentealba", "Raúl Caulier-Cisterna"],
-    imagenes: [
-      { url: "https://i.postimg.cc/bvmXJ8N5/Diseno-sin-titulo-(3).png", desc: "Dispositivo de adquisición de audio desarrollo del proyecto Suseso 306-2023" },
-      { url: "https://i.postimg.cc/R0ZSGgWg/Imagen-de-referencia.png", desc: "Espectrogramas de señales deglutorias capturadas durante el proceso de deglución" }
-    ],
-    documentos: [
-      { titulo: "Paper: Clasificación Automática de Señales Deglutorias Utilizando Machine Learning", tipo: "Paper", link: "https://drive.google.com/file/d/1YxCNRyKqC9ovUtsG0BlElTK3uFkcfOt-/view?usp=drive_link" }
-    ]
-  },
-  {
     id: 6,
     titulo: "Plataforma web para el análisis funcional de la médula espinal",
-    badge: "",
-    linea: "Desarrollo de Software Biomédico",
+    badge: "Plataforma Clínica Web",
+    linea: "Tecnologías para rehabilitación y traslación",
+    lineaId: 4,
     desc: "Esta línea de investigación se enfoca en el desarrollo de una plataforma web interactiva para el análisis y visualización de señales que reflejan el funcionamiento de la médula espinal, obtenidas mediante una técnica no invasiva llamada espectroscopía funcional de infrarrojo cercano (fNIRS). El problema que aborda este trabajo es que muchas enfermedades de la columna pueden generar dolor o alteraciones motoras y sensoriales sin mostrar cambios visibles en exámenes tradicionales como la resonancia magnética o la tomografía. En este contexto, fNIRS permite observar cómo responde la médula espinal a distintos estímulos, midiendo cambios en la oxigenación de la sangre asociados a su actividad funcional. La plataforma desarrollada permite explorar grandes volúmenes de datos de manera remota y segura, filtrar información por variables clínicas y demográficas, visualizar las respuestas por zonas y canales, detectar y limpiar señales con artefactos, y exportar automáticamente métricas relevantes para análisis clínico o investigación. Gracias a estas herramientas, es posible identificar patrones anómalos y comparar grupos de pacientes de forma más eficiente y sistemática. En conjunto, esta línea busca facilitar el uso clínico y científico de fNIRS en columna, aportando una herramienta práctica para el estudio funcional de la médula espinal y sentando las bases para mejorar la detección temprana y el seguimiento de patologías espinales que no son evidentes en estudios estructurales tradicionales.",
     color: "from-[#2f9fb3]/10 to-[#2f9fb3]/20 border-[#2f9fb3]/20",
     integrantes: ["Gabriel Araya López", "Andrés Vega-Moraga", "Glenn Lanyon-Alarcón", "Jorge Vergara-Quezada", "Sergio Uribe", "Antonio Eblen-Zajjur", "Raúl Caulier-Cisterna"],
     imagenes: [],
     documentos: [
       { titulo: "Paper: Spine-fNIRSWeb: Interfaz Gráfica Remota para el Análisis y Visualización de Señales de la Respuesta Neurovascular en la Médula Espinal", tipo: "Paper", link: "https://drive.google.com/file/d/1iqyxVajWzy7b1N9sZ05BiTnpkgAoK7kK/view?usp=drive_link" }
-    ]
-  },
-  {
-    id: 7,
-    titulo: "Software en Python para analizar la respuesta neurovascular espinal",
-    badge: "",
-    linea: "Desarrollo de Software Biomédico",
-    desc: "Esta línea de investigación se centra en el desarrollo de un software en Python para el análisis de la respuesta neurovascular de la médula espinal, medida mediante una técnica no invasiva llamada espectroscopía funcional de infrarrojo cercano (fNIRS). Esta técnica permite observar cambios en la oxigenación de la sangre asociados a la actividad funcional de la médula, algo que no puede evaluarse directamente con exámenes tradicionales como la resonancia o el escáner. El trabajo combina fNIRS con estimulación eléctrica indolora de nervios periféricos para provocar una respuesta medible en distintos niveles de la columna. A partir de estos datos, el software procesa las señales, elimina ruido, calcula indicadores fisiológicos relevantes y permite caracterizar cómo responde la red neurovascular peri-espinal. Un aspecto clave del estudio es la validación del software en Python mediante la comparación directa con herramientas previamente desarrolladas en MATLAB, mostrando resultados consistentes en la mayoría de las variables analizadas. Esto confirma que la nueva plataforma es una alternativa confiable, más flexible y accesible para el análisis de este tipo de señales. En conjunto, esta línea busca facilitar y estandarizar el análisis de datos fNIRS en columna, apoyando la investigación y abriendo el camino hacia futuras aplicaciones clínicas orientadas a la evaluación funcional de patologías espinales que no presentan cambios estructurales evidentes.",
-    color: "from-[#1f7a8c]/10 to-[#1f7a8c]/20 border-[#1f7a8c]/20",
-    integrantes: ["Glenn Lanyon-Alarcon", "Andrés Vega-Moraga", "Jorge Vergara-Quezada", "Ana Moya-Beltrán", "Sergio Uribe", "Antonio Eblen-Zajjur", "Raúl Caulier-Cisterna"],
-    imagenes: [],
-    documentos: [
-      { titulo: "Póster: Software en Python para el análisis de la respuesta neurovascular peri-espinal obtenida con fNIRS", tipo: "Paper", link: "https://drive.google.com/file/d/1M2yYsle0MGrwIyioQ5rDqTlrZI8cvYOb/view?usp=drive_link" }
-    ]
-  },
-  {
-    id: 8,
-    titulo: "Respuesta neurovascular espinal y período refractario",
-    badge: "",
-    linea: "Neurofisiología y fNIRS",
-    desc: "Esta línea de investigación estudia cómo responde la médula espinal a estímulos eléctricos suaves y no invasivos, utilizando una técnica llamada espectroscopía funcional de infrarrojo cercano (fNIRS), que permite medir cambios en la oxigenación de la sangre asociados a la actividad del sistema nervioso. El objetivo principal es explorar la existencia de un llamado período refractario neurovascular, es decir, un intervalo de tiempo en el que la médula espinal no logra generar una respuesta completa si los estímulos se aplican demasiado seguido. Para ello, se aplican estímulos con tiempos de espera cada vez más cortos y se observa cómo cambia la señal registrada. Los resultados muestran que, cuando los estímulos se aplican con intervalos muy breves, la respuesta neurovascular disminuye progresivamente, especialmente en la región cervical, lo que entrega evidencia preliminar de este fenómeno de refractariedad. También se observan diferencias entre las zonas cervical y lumbar, lo que sugiere que la respuesta de la médula no es uniforme a lo largo de la columna. En proyección, esta línea de trabajo busca comprender mejor el funcionamiento dinámico de la médula espinal y sentar las bases para utilizar estas mediciones como biomarcadores funcionales, con potencial aplicación en el estudio de dolor neuropático, lesiones medulares y otras condiciones donde los exámenes estructurales tradicionales no muestran alteraciones claras.",
-    color: "from-[#2f9fb3]/10 to-[#2f9fb3]/20 border-[#2f9fb3]/20",
-    integrantes: ["Glenn Lanyon-Alarcón", "Vicente Escudero-Durana", "Ana Moya-Beltrán", "Jorge Vergara-Quezada", "Sergio Uribe", "Antonio Eblen-Zajjur", "Raúl Caulier-Cisterna"],
-    imagenes: [
-      { url: "https://i.postimg.cc/RC8tjH9h/Diseno-sin-titulo-(1).jpg", desc: "Posición de los optodos y estimulador." },
-      { url: "https://i.postimg.cc/43bbGNPF/unnamed.jpg", desc: "Representación esquemática del período refractario neurovascular en la médula espinal medido mediante fNIRS." }
-    ],
-    documentos: [
-      { titulo: "Póster: Registro de la respuesta neurovascular peri-espinal y detección del período refractario con espectroscopía funcional de infrarrojo cercano", tipo: "Paper", link: "https://drive.google.com/file/d/16sQsgMSYrIOBWN7szBeBbepGM3MG72f2/view?usp=drive_link" }
     ]
   }
 ];
