@@ -706,15 +706,16 @@ export function LegalQuickModal({ isOpen, initialTab = 'privacidad', onClose }) 
  * Banner inferior de consentimiento de cookies conforme a la Ley N° 21.719
  */
 export function CookieConsentBanner({ onOpenLegal }) {
-  const [pref, setPref] = useState(() => getCookiePreference());
+  // Garantiza que el aviso aparezca visible al ingresar a la página
+  const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
-    const handleUpdate = () => setPref(getCookiePreference());
-    window.addEventListener('latsib-consent-updated', handleUpdate);
-    return () => window.removeEventListener('latsib-consent-updated', handleUpdate);
+    const handleOpen = () => setIsOpen(true);
+    window.addEventListener('latsib-open-cookie-banner', handleOpen);
+    return () => window.removeEventListener('latsib-open-cookie-banner', handleOpen);
   }, []);
 
-  if (pref) return null;
+  if (!isOpen) return null;
 
   const handleDecision = (decision) => {
     recordConsent({
@@ -722,6 +723,7 @@ export function CookieConsentBanner({ onOpenLegal }) {
       cookieDecision: decision,
       acceptedPrivacyAndTerms: true,
     });
+    setIsOpen(false);
   };
 
   return (

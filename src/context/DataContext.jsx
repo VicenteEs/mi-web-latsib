@@ -18,7 +18,7 @@ const DataContext = createContext(null);
 
 const STORAGE_KEYS = {
   CONFIG: 'latsib_config_v7',
-  EQUIPO: 'latsib_equipo_v11',
+  EQUIPO: 'latsib_equipo_v12',
   PUBLICACIONES: 'latsib_publicaciones_v4',
   ACTIVIDADES: 'latsib_actividades_v4',
   PROYECTOS: 'latsib_proyectos_v4',
