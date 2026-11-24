@@ -191,18 +191,10 @@ const ActivityCard = ({ item, onClick }) => (
 
 // Vista Detalle de Actividad
 const ActivityDetailView = ({ activity, onBack }) => {
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') setSelectedImage(null);
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const validGallery = (activity?.galeria || []).filter(f => f && f.url && f.url.trim() !== '');
@@ -210,6 +202,28 @@ const ActivityDetailView = ({ activity, onBack }) => {
     .flatMap(item => (typeof item === 'string' ? item.split(',') : [item]))
     .map(name => (typeof name === 'string' ? name.trim() : ''))
     .filter(Boolean);
+
+  const nextImage = (e) => {
+    if (e) e.stopPropagation();
+    setSelectedImageIndex((prev) => (prev === null ? 0 : (prev + 1) % validGallery.length));
+  };
+
+  const prevImage = (e) => {
+    if (e) e.stopPropagation();
+    setSelectedImageIndex((prev) => (prev === null ? 0 : (prev - 1 + validGallery.length) % validGallery.length));
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setSelectedImageIndex(null);
+      if (selectedImageIndex !== null) {
+        if (e.key === 'ArrowRight') nextImage();
+        if (e.key === 'ArrowLeft') prevImage();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedImageIndex, validGallery.length]);
 
   return (
     <div className="pt-32 pb-20 min-h-screen bg-slate-50 animate-in fade-in zoom-in duration-300">
@@ -256,7 +270,7 @@ const ActivityDetailView = ({ activity, onBack }) => {
                   <div key={idx} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all group flex flex-col h-full border border-slate-200">
                     <div
                       className="relative h-72 sm:h-80 w-full bg-slate-950 flex items-center justify-center overflow-hidden cursor-pointer"
-                      onClick={() => setSelectedImage(foto)}
+                      onClick={() => setSelectedImageIndex(idx)}
                       title="Haz clic para ver la imagen completa"
                     >
                       <img
@@ -267,7 +281,7 @@ const ActivityDetailView = ({ activity, onBack }) => {
                       />
                       <img
                         src={foto.url}
-                        alt={foto.descripcion || `Evidencia ${idx + 1}`}
+                        alt={`Evidencia ${idx + 1}`}
                         className="relative z-10 max-h-full max-w-full object-contain p-2 transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"
                       />
@@ -275,13 +289,6 @@ const ActivityDetailView = ({ activity, onBack }) => {
                         <Maximize2 size={14} /> Ampliar
                       </div>
                     </div>
-
-                    {foto.descripcion && (
-                      <div className="p-5 flex gap-3 items-start flex-grow bg-white border-t border-slate-100">
-                        <Info size={18} className="text-blue-500 mt-0.5 shrink-0" />
-                        <p className="text-slate-700 text-sm leading-relaxed">{foto.descripcion}</p>
-                      </div>
-                    )}
                   </div>
                 ))}
               </div>
@@ -309,31 +316,56 @@ const ActivityDetailView = ({ activity, onBack }) => {
         </div>
       </div>
 
-      {selectedImage && (
+      {selectedImageIndex !== null && validGallery[selectedImageIndex] && (
         <div
           className="fixed inset-0 z-[120] bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-4 animate-in fade-in duration-200"
-          onClick={() => setSelectedImage(null)}
+          onClick={() => setSelectedImageIndex(null)}
         >
           <button
             type="button"
-            onClick={() => setSelectedImage(null)}
+            onClick={() => setSelectedImageIndex(null)}
             className="absolute top-5 right-5 text-white/80 hover:text-white p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors cursor-pointer z-30"
             aria-label="Cerrar imagen"
           >
             <X size={26} />
           </button>
+
+          {/* Flecha izquierda */}
+          {validGallery.length > 1 && (
+            <button
+              type="button"
+              onClick={prevImage}
+              className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 text-white/90 hover:text-white p-3 rounded-full bg-white/10 hover:bg-white/25 transition-all cursor-pointer z-30 backdrop-blur-sm shadow-lg hover:scale-110"
+              aria-label="Imagen anterior"
+            >
+              <ChevronLeft size={30} />
+            </button>
+          )}
+
+          {/* Flecha derecha */}
+          {validGallery.length > 1 && (
+            <button
+              type="button"
+              onClick={nextImage}
+              className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 text-white/90 hover:text-white p-3 rounded-full bg-white/10 hover:bg-white/25 transition-all cursor-pointer z-30 backdrop-blur-sm shadow-lg hover:scale-110"
+              aria-label="Siguiente imagen"
+            >
+              <ChevronRight size={30} />
+            </button>
+          )}
+
           <div
             className="relative max-h-[85vh] max-w-[92vw] flex flex-col items-center justify-center"
             onClick={(e) => e.stopPropagation()}
           >
             <img
-              src={selectedImage.url}
-              alt={selectedImage.descripcion || "Imagen completa"}
-              className="max-h-[75vh] max-w-full object-contain rounded-xl shadow-2xl"
+              src={validGallery[selectedImageIndex].url}
+              alt={`Imagen ${selectedImageIndex + 1} de ${validGallery.length}`}
+              className="max-h-[80vh] max-w-full object-contain rounded-xl shadow-2xl"
             />
-            {selectedImage.descripcion && (
-              <div className="mt-4 p-4 bg-slate-900/90 backdrop-blur-md border border-white/10 text-white text-sm max-w-2xl text-center rounded-2xl">
-                {selectedImage.descripcion}
+            {validGallery.length > 1 && (
+              <div className="mt-3 px-4 py-1.5 bg-slate-900/80 backdrop-blur-md border border-white/10 text-white/90 text-xs font-semibold rounded-full">
+                {selectedImageIndex + 1} / {validGallery.length}
               </div>
             )}
           </div>
