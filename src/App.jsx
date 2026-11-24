@@ -893,6 +893,146 @@ const MemberDetailModal = ({ member, onClose }) => {
   );
 };
 
+// Modal de Detalle Completo de Línea de Investigación
+const LineaDetailModal = ({ linea, proyectos = [], onClose, onSelectProject }) => {
+  if (!linea) return null;
+
+  const associatedProjects = proyectos.filter(
+    (p) => p.lineaId === linea.id || (p.linea && p.linea.toLowerCase().includes(linea.titulo.toLowerCase().split(' ')[0]))
+  );
+
+  return (
+    <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 sm:p-6 overflow-y-auto animate-in fade-in duration-200">
+      <div 
+        className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300 animate-in fade-in"
+        onClick={onClose}
+      />
+
+      <div className="relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden z-10 animate-in zoom-in-95 duration-200 my-auto max-h-[90vh] flex flex-col">
+        {/* Cabecera del modal */}
+        <div className="bg-gradient-to-r from-blue-900 via-slate-900 to-teal-900 px-6 sm:px-8 py-5 text-white flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-3">
+            <span className="px-3 py-1 rounded-full text-xs font-bold bg-teal-500/20 text-teal-300 border border-teal-400/30">
+              {linea.badge || `Línea ${linea.numero}`}
+            </span>
+            <span className="text-xs text-slate-300 font-semibold hidden sm:inline-block">
+              Línea {linea.numero} de Investigación LaTSIB
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="p-1.5 rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            aria-label="Cerrar"
+          >
+            <X size={22} />
+          </button>
+        </div>
+
+        {/* Contenido con scroll */}
+        <div className="p-6 sm:p-8 overflow-y-auto flex-grow space-y-6">
+          <div className="flex items-start gap-4">
+            <div className="p-3.5 rounded-2xl bg-teal-50 border border-teal-100 shrink-0 text-teal-700">
+              {linea.id === 1 ? <Brain className="w-8 h-8 text-purple-600" /> :
+               linea.id === 2 ? <Activity className="w-8 h-8 text-teal-600" /> :
+               linea.id === 3 ? <HeartPulse className="w-8 h-8 text-rose-600" /> :
+                                <Cpu className="w-8 h-8 text-blue-600" />}
+            </div>
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-1">
+                Línea {linea.numero}
+              </span>
+              <h3 className="text-xl sm:text-2xl font-bold text-slate-900 leading-snug">
+                {linea.nombreCompleto || linea.titulo}
+              </h3>
+            </div>
+          </div>
+
+          {/* Descripción general */}
+          <div className="bg-slate-50 rounded-2xl p-5 sm:p-6 border border-slate-100">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 mb-2.5 flex items-center gap-2">
+              <Sparkles size={16} className="text-teal-600" /> Descripción de la Línea
+            </h4>
+            <p className="text-slate-700 text-sm sm:text-base leading-relaxed">
+              {linea.descripcion}
+            </p>
+          </div>
+
+          {/* Enfoque metodológico completo */}
+          {linea.enfoque && (
+            <div className="bg-blue-50/60 rounded-2xl p-5 sm:p-6 border border-blue-100/80">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-blue-900 mb-2.5 flex items-center gap-2">
+                <Target size={16} className="text-blue-600" /> Alcance y Enfoque Metodológico
+              </h4>
+              <p className="text-slate-700 text-sm leading-relaxed">
+                {linea.enfoque}
+              </p>
+            </div>
+          )}
+
+          {/* Proyectos asociados a esta línea */}
+          <div>
+            <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-100">
+              <h4 className="text-sm font-bold uppercase tracking-wider text-slate-900 flex items-center gap-2">
+                <Atom size={18} className="text-teal-600" /> Proyectos Asociados ({associatedProjects.length})
+              </h4>
+              <span className="text-xs text-slate-500">Desarrollados en esta línea</span>
+            </div>
+
+            {associatedProjects.length > 0 ? (
+              <div className="grid gap-3 sm:grid-cols-2">
+                {associatedProjects.map((proj, idx) => (
+                  <div
+                    key={proj.id || idx}
+                    onClick={() => {
+                      onClose();
+                      if (onSelectProject) onSelectProject(proj);
+                    }}
+                    className="p-4 rounded-xl border border-slate-200/90 bg-white hover:bg-slate-50 hover:border-blue-300 transition-all cursor-pointer group shadow-2xs flex flex-col justify-between"
+                  >
+                    <div>
+                      {proj.badge && (
+                        <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-100 mb-2">
+                          {proj.badge}
+                        </span>
+                      )}
+                      <h5 className="font-bold text-slate-900 text-sm mb-1 group-hover:text-blue-600 transition-colors leading-snug">
+                        {proj.titulo}
+                      </h5>
+                      <p className="text-slate-500 text-xs line-clamp-2 leading-relaxed">
+                        {proj.desc}
+                      </p>
+                    </div>
+                    <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-blue-600 text-xs font-bold">
+                      <span>Ver proyecto completo</span>
+                      <ChevronRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-xs text-slate-500 italic p-4 bg-slate-50 rounded-xl text-center">
+                Actualmente no hay proyectos asignados directamente a esta línea en la base de datos pública.
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Pie del modal */}
+        <div className="p-4 sm:px-8 bg-slate-50 border-t border-slate-100 flex items-center justify-end shrink-0">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-sm transition-colors cursor-pointer"
+          >
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const TeamMemberCard = ({ miembro, onSelect }) => (
   <div
     onClick={() => onSelect(miembro)}
@@ -993,6 +1133,7 @@ function AppContent() {
   const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
+  const [selectedLineaModal, setSelectedLineaModal] = useState(null);
 
   // Parser de ruta seguro y flexible (soporta hash, pathname y search query params)
   const parseRoute = () => {
@@ -1459,7 +1600,7 @@ function AppContent() {
                 {(lineasInvestigacion || []).map((linea) => (
                   <div
                     key={linea.id}
-                    className="bg-white rounded-3xl p-8 border border-slate-200/90 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+                    className="bg-white rounded-3xl p-8 border border-slate-200/90 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
                   >
                     <div>
                       <div className="flex items-center justify-between gap-3 mb-4">
@@ -1477,19 +1618,24 @@ function AppContent() {
                            linea.id === 3 ? <HeartPulse className="w-6 h-6 text-rose-600" /> :
                                             <Cpu className="w-6 h-6 text-blue-600" />}
                         </div>
-                        <h3 className="text-lg font-bold text-slate-900 leading-snug">
+                        <h3 className="text-lg sm:text-xl font-bold text-slate-900 leading-snug">
                           {linea.nombreCompleto || linea.titulo}
                         </h3>
                       </div>
-                      <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                      <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
                         {linea.descripcion}
                       </p>
-                      {linea.enfoque && (
-                        <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 text-xs text-slate-600 leading-relaxed">
-                          <strong className="text-slate-800 block mb-1">Alcance y Enfoque Metodológico:</strong>
-                          {linea.enfoque}
-                        </div>
-                      )}
+                    </div>
+
+                    <div className="pt-4 border-t border-slate-100 mt-auto">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedLineaModal(linea)}
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-slate-50 hover:bg-teal-50 text-slate-700 hover:text-teal-700 font-bold text-sm border border-slate-200 hover:border-teal-200 transition-all cursor-pointer group/btn"
+                      >
+                        <span>Ver línea de investigación completa</span>
+                        <ChevronRight size={16} className="transform group-hover/btn:translate-x-1 transition-transform" />
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -2247,6 +2393,14 @@ function AppContent() {
       <MemberDetailModal
         member={selectedMember}
         onClose={() => setSelectedMember(null)}
+      />
+
+      {/* MODAL DE LÍNEA DE INVESTIGACIÓN COMPLETA */}
+      <LineaDetailModal
+        linea={selectedLineaModal}
+        proyectos={proyectos}
+        onClose={() => setSelectedLineaModal(null)}
+        onSelectProject={(proj) => handleViewResearch(proj)}
       />
     </div>
   );
