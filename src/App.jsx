@@ -18,6 +18,10 @@ import heroTeamImg3 from './assets/hero-team-3.jpg';
 import queHacemosImg1 from './assets/que-hacemos-1.jpg';
 import queHacemosImg2 from './assets/que-hacemos-2.jpg';
 import queHacemosImg3 from './assets/que-hacemos-3.jpg';
+import misionImg1 from './assets/mision-1.jpg';
+import misionImg2 from './assets/mision-2.jpg';
+import visionImg1 from './assets/vision-1.jpg';
+import visionImg2 from './assets/vision-2.jpg';
 
 // --- COMPONENTES AUXILIARES DE LA WEB PÚBLICA ---
 
@@ -655,6 +659,232 @@ const AboutView = ({ onBack, onNavigateWhatWeDo, onContact, institutionalInfo })
   );
 };
 
+// Vista Dedicada: Líneas de Investigación y Proyectos Asociados
+const ResearchView = ({ 
+  lineasInvestigacion = [], 
+  proyectos = [], 
+  selectedLineaId, 
+  onSelectLinea, 
+  onSelectProject, 
+  onBack,
+  institutionalInfo 
+}) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [selectedLineaId]);
+
+  const activeLinea = lineasInvestigacion.find(l => l.id === selectedLineaId) || lineasInvestigacion[0] || {};
+  const otherLineas = lineasInvestigacion.filter(l => l.id !== activeLinea.id);
+
+  const associatedProjects = proyectos.filter(
+    (p) => p.lineaId === activeLinea.id || (p.linea && p.linea.toLowerCase().includes(activeLinea.titulo?.toLowerCase().split(' ')[0]))
+  );
+
+  const iconMap = {
+    1: <Brain className="w-8 h-8 text-purple-600" />,
+    2: <Activity className="w-8 h-8 text-teal-600" />,
+    3: <Microscope className="w-8 h-8 text-rose-600" />,
+    4: <Accessibility className="w-8 h-8 text-blue-600" />
+  };
+
+  const smallIconMap = {
+    1: <Brain className="w-5 h-5 text-purple-600" />,
+    2: <Activity className="w-5 h-5 text-teal-600" />,
+    3: <Microscope className="w-5 h-5 text-rose-600" />,
+    4: <Accessibility className="w-5 h-5 text-blue-600" />
+  };
+
+  return (
+    <div className="pt-32 pb-24 min-h-screen bg-slate-50 animate-in fade-in duration-300">
+      <div className="container mx-auto px-6 max-w-6xl">
+        {/* Botón Volver */}
+        <div className="mb-8">
+          <button
+            type="button"
+            onClick={onBack}
+            className="inline-flex items-center gap-2 text-slate-600 hover:text-blue-600 font-semibold transition-colors bg-white px-5 py-2.5 rounded-full shadow-sm border border-slate-200 cursor-pointer hover:shadow"
+          >
+            <ArrowLeft size={18} /> Volver al inicio
+          </button>
+        </div>
+
+        {/* Encabezado Principal */}
+        <div className="mb-10">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-100 text-blue-700 font-bold text-xs uppercase tracking-wider mb-4">
+            <Sparkles size={14} className="text-blue-600" /> Laboratorio LaTSIB · UTEM
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">
+            Líneas de Investigación
+          </h1>
+          <p className="text-lg text-slate-600 max-w-3xl">
+            Líneas científicas institucionales que articulan inteligencia artificial, procesamiento avanzado de señales y tecnologías biomédicas traslacionales.
+          </p>
+        </div>
+
+        {/* LÍNEA SELECCIONADA COMPLETA (Tarjeta Principal Destacada) */}
+        {activeLinea && (
+          <div className="bg-white rounded-3xl border-2 border-[#2f9fb3] shadow-md p-8 sm:p-12 mb-16 relative overflow-hidden">
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-6 border-b border-slate-100">
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 rounded-2xl bg-cyan-50 border border-cyan-100 flex items-center justify-center shrink-0 shadow-sm">
+                  {iconMap[activeLinea.id] || <Cpu className="w-8 h-8 text-cyan-600" />}
+                </div>
+                <div>
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#2f9fb3] block mb-1">
+                    Línea {activeLinea.numero} de Investigación
+                  </span>
+                  <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
+                    {activeLinea.nombreCompleto || activeLinea.titulo}
+                  </h2>
+                </div>
+              </div>
+
+              {activeLinea.badge && (
+                <span className="px-4 py-1.5 rounded-full text-xs font-bold bg-teal-50 text-teal-800 border border-teal-200">
+                  {activeLinea.badge}
+                </span>
+              )}
+            </div>
+
+            {/* Descripción principal */}
+            <div className="mb-8">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">
+                Descripción
+              </h3>
+              <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-normal">
+                {activeLinea.descripcion}
+              </p>
+            </div>
+
+            {/* Enfoque metodológico completo */}
+            {activeLinea.enfoque && (
+              <div className="bg-slate-50 rounded-2xl p-6 sm:p-8 border border-slate-200/80 mb-10">
+                <h4 className="text-sm font-bold uppercase tracking-wider text-slate-800 mb-3 flex items-center gap-2">
+                  <Target size={18} className="text-[#2f9fb3]" /> Alcance y Enfoque Metodológico
+                </h4>
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                  {activeLinea.enfoque}
+                </p>
+              </div>
+            )}
+
+            {/* Proyectos asociados a esta línea */}
+            <div>
+              <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-100">
+                <h4 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <Atom size={20} className="text-[#2f9fb3]" /> Proyectos Asociados a esta Línea ({associatedProjects.length})
+                </h4>
+                <span className="text-xs text-slate-500">Haz clic en un proyecto para ver sus detalles</span>
+              </div>
+
+              {associatedProjects.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {associatedProjects.map((item, idx) => (
+                    <div
+                      key={item.id || idx}
+                      onClick={() => onSelectProject(item)}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelectProject(item); } }}
+                      className="group flex flex-col justify-between p-6 rounded-2xl bg-slate-50/80 hover:bg-white border border-slate-200/80 hover:border-cyan-400 hover:shadow-lg transition-all duration-300 cursor-pointer"
+                    >
+                      <div>
+                        {item.badge && (
+                          <span className="inline-block px-3 py-0.5 rounded-full text-xs font-bold bg-teal-100 text-teal-800 border border-teal-200 mb-3">
+                            {item.badge}
+                          </span>
+                        )}
+                        <h5 className="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors mb-2 leading-snug">
+                          {item.titulo}
+                        </h5>
+                        <p className="text-slate-600 text-sm line-clamp-3 leading-relaxed mb-4">
+                          {item.desc}
+                        </p>
+                      </div>
+                      <div className="pt-3 border-t border-slate-200/60 flex items-center justify-between text-blue-600 text-xs font-bold">
+                        <span>Ver proyecto completo</span>
+                        <ChevronRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="p-8 text-center bg-slate-50 rounded-2xl text-slate-500 text-sm italic">
+                  Actualmente los proyectos de esta línea se encuentran en proceso de documentación activa.
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* OTRAS LÍNEAS DE INVESTIGACIÓN (En pequeño para navegar entre ellas) */}
+        <div className="mb-16">
+          <div className="text-center max-w-2xl mx-auto mb-8">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">
+              Explorar otras áreas
+            </span>
+            <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+              Otras Líneas de Investigación
+            </h3>
+            <p className="text-sm text-slate-500 mt-1">
+              Selecciona cualquiera de las otras líneas para consultar su información completa y proyectos.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {otherLineas.map((linea) => (
+              <div
+                key={linea.id}
+                onClick={() => onSelectLinea(linea.id)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelectLinea(linea.id); } }}
+                className="bg-white p-6 rounded-2xl border border-slate-200/80 hover:border-[#2f9fb3] shadow-xs hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col justify-between group hover:-translate-y-1"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-600 group-hover:bg-cyan-50 group-hover:text-cyan-700 transition-colors">
+                      Línea {linea.numero}
+                    </span>
+                    <div className="w-9 h-9 rounded-xl bg-slate-50 group-hover:bg-cyan-50 flex items-center justify-center border border-slate-100 group-hover:border-cyan-100 transition-colors">
+                      {smallIconMap[linea.id] || <Cpu size={16} />}
+                    </div>
+                  </div>
+                  <h4 className="font-bold text-slate-900 text-base mb-2 group-hover:text-[#2f9fb3] transition-colors leading-snug">
+                    {linea.titulo}
+                  </h4>
+                  <p className="text-slate-500 text-xs line-clamp-3 leading-relaxed mb-4">
+                    {linea.descripcion}
+                  </p>
+                </div>
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#2f9fb3]">
+                  <span>Ver línea completa</span>
+                  <ChevronRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Articulación Científica de las Líneas */}
+        {institutionalInfo?.articulacionLineas && (
+          <div className="bg-gradient-to-r from-blue-900 via-slate-900 to-teal-900 rounded-3xl p-8 sm:p-10 text-white shadow-lg">
+            <span className="text-xs uppercase font-bold tracking-widest text-teal-300 block mb-2">
+              Articulación Científica
+            </span>
+            <h4 className="text-xl sm:text-2xl font-bold mb-3">
+              Integración y Sinergia de las Líneas
+            </h4>
+            <p className="text-slate-200 text-sm sm:text-base leading-relaxed">
+              {institutionalInfo.articulacionLineas}
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 // Vista Detalle de Proyecto / Línea de Investigación
 const ResearchDetailView = ({ research, onBack }) => {
   useEffect(() => {
@@ -893,6 +1123,146 @@ const MemberDetailModal = ({ member, onClose }) => {
   );
 };
 
+// Modal de Detalle Completo de Línea de Investigación
+const LineaDetailModal = ({ linea, proyectos = [], onClose, onSelectProject }) => {
+  if (!linea) return null;
+
+  const associatedProjects = proyectos.filter(
+    (p) => p.lineaId === linea.id || (p.linea && p.linea.toLowerCase().includes(linea.titulo.toLowerCase().split(' ')[0]))
+  );
+
+  return (
+    <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 sm:p-6 overflow-y-auto animate-in fade-in duration-200">
+      <div 
+        className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300 animate-in fade-in"
+        onClick={onClose}
+      />
+
+      <div className="relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden z-10 animate-in zoom-in-95 duration-200 my-auto max-h-[90vh] flex flex-col">
+        {/* Cabecera del modal */}
+        <div className="bg-gradient-to-r from-blue-900 via-slate-900 to-teal-900 px-6 sm:px-8 py-5 text-white flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-3">
+            <span className="px-3 py-1 rounded-full text-xs font-bold bg-teal-500/20 text-teal-300 border border-teal-400/30">
+              {linea.badge || `Línea ${linea.numero}`}
+            </span>
+            <span className="text-xs text-slate-300 font-semibold hidden sm:inline-block">
+              Línea {linea.numero} de Investigación LaTSIB
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="p-1.5 rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            aria-label="Cerrar"
+          >
+            <X size={22} />
+          </button>
+        </div>
+
+        {/* Contenido con scroll */}
+        <div className="p-6 sm:p-8 overflow-y-auto flex-grow space-y-6">
+          <div className="flex items-start gap-4">
+            <div className="p-3.5 rounded-2xl bg-teal-50 border border-teal-100 shrink-0 text-teal-700">
+              {linea.id === 1 ? <Brain className="w-8 h-8 text-purple-600" /> :
+               linea.id === 2 ? <Activity className="w-8 h-8 text-teal-600" /> :
+               linea.id === 3 ? <HeartPulse className="w-8 h-8 text-rose-600" /> :
+                                <Cpu className="w-8 h-8 text-blue-600" />}
+            </div>
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-1">
+                Línea {linea.numero}
+              </span>
+              <h3 className="text-xl sm:text-2xl font-bold text-slate-900 leading-snug">
+                {linea.nombreCompleto || linea.titulo}
+              </h3>
+            </div>
+          </div>
+
+          {/* Descripción general */}
+          <div className="bg-slate-50 rounded-2xl p-5 sm:p-6 border border-slate-100">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 mb-2.5 flex items-center gap-2">
+              <Sparkles size={16} className="text-teal-600" /> Descripción de la Línea
+            </h4>
+            <p className="text-slate-700 text-sm sm:text-base leading-relaxed">
+              {linea.descripcion}
+            </p>
+          </div>
+
+          {/* Enfoque metodológico completo */}
+          {linea.enfoque && (
+            <div className="bg-blue-50/60 rounded-2xl p-5 sm:p-6 border border-blue-100/80">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-blue-900 mb-2.5 flex items-center gap-2">
+                <Target size={16} className="text-blue-600" /> Alcance y Enfoque Metodológico
+              </h4>
+              <p className="text-slate-700 text-sm leading-relaxed">
+                {linea.enfoque}
+              </p>
+            </div>
+          )}
+
+          {/* Proyectos asociados a esta línea */}
+          <div>
+            <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-100">
+              <h4 className="text-sm font-bold uppercase tracking-wider text-slate-900 flex items-center gap-2">
+                <Atom size={18} className="text-teal-600" /> Proyectos Asociados ({associatedProjects.length})
+              </h4>
+              <span className="text-xs text-slate-500">Desarrollados en esta línea</span>
+            </div>
+
+            {associatedProjects.length > 0 ? (
+              <div className="grid gap-3 sm:grid-cols-2">
+                {associatedProjects.map((proj, idx) => (
+                  <div
+                    key={proj.id || idx}
+                    onClick={() => {
+                      onClose();
+                      if (onSelectProject) onSelectProject(proj);
+                    }}
+                    className="p-4 rounded-xl border border-slate-200/90 bg-white hover:bg-slate-50 hover:border-blue-300 transition-all cursor-pointer group shadow-2xs flex flex-col justify-between"
+                  >
+                    <div>
+                      {proj.badge && (
+                        <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-100 mb-2">
+                          {proj.badge}
+                        </span>
+                      )}
+                      <h5 className="font-bold text-slate-900 text-sm mb-1 group-hover:text-blue-600 transition-colors leading-snug">
+                        {proj.titulo}
+                      </h5>
+                      <p className="text-slate-500 text-xs line-clamp-2 leading-relaxed">
+                        {proj.desc}
+                      </p>
+                    </div>
+                    <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-blue-600 text-xs font-bold">
+                      <span>Ver proyecto completo</span>
+                      <ChevronRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-xs text-slate-500 italic p-4 bg-slate-50 rounded-xl text-center">
+                Actualmente no hay proyectos asignados directamente a esta línea en la base de datos pública.
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Pie del modal */}
+        <div className="p-4 sm:px-8 bg-slate-50 border-t border-slate-100 flex items-center justify-end shrink-0">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-sm transition-colors cursor-pointer"
+          >
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const TeamMemberCard = ({ miembro, onSelect }) => (
   <div
     onClick={() => onSelect(miembro)}
@@ -993,6 +1363,7 @@ function AppContent() {
   const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
+  const [selectedLineaModal, setSelectedLineaModal] = useState(null);
 
   // Parser de ruta seguro y flexible (soporta hash, pathname y search query params)
   const parseRoute = () => {
@@ -1012,8 +1383,14 @@ function AppContent() {
     if (pathKey === 'que-hacemos' || pathKey === 'quehacemos') {
       return { view: 'what-we-do', id: null, section: null };
     }
-    if (pathKey === 'investigaciones') {
-      return { view: 'research-list', id: null, section: null };
+    if (pathKey === 'investigaciones' || pathKey === 'investigacion' || pathKey === 'lineas-investigacion') {
+      const lineaParam = searchParams.get('linea');
+      return { view: 'research-list', id: lineaParam ? parseInt(lineaParam, 10) : 1, section: null };
+    }
+    if (pathKey.startsWith('linea/')) {
+      const rawId = pathKey.replace('linea/', '');
+      const numId = parseInt(rawId, 10);
+      return { view: 'research-list', id: isNaN(numId) ? 1 : numId, section: null };
     }
     if (pathKey.startsWith('investigacion/')) {
       const rawId = pathKey.replace('investigacion/', '');
@@ -1092,7 +1469,7 @@ function AppContent() {
     if (targetView === 'landing') newHash = '';
     else if (targetView === 'about-us') newHash = 'nosotros';
     else if (targetView === 'what-we-do') newHash = 'que-hacemos';
-    else if (targetView === 'research-list') newHash = 'investigaciones';
+    else if (targetView === 'research-list') newHash = id ? `linea/${id}` : 'investigaciones';
     else if (targetView === 'research-detail') newHash = `investigacion/${id}`;
     else if (targetView === 'activities-list') newHash = 'actividades';
     else if (targetView === 'activity-detail') newHash = `actividad/${id}`;
@@ -1205,7 +1582,7 @@ function AppContent() {
           <div className={`hidden md:flex items-center gap-7 ${isScrolled || route.view !== 'landing' ? 'text-slate-600' : 'text-white'}`}>
             <button type="button" onClick={() => navigateTo('about-us')} className="hover:text-blue-500 font-medium transition-colors cursor-pointer">Nosotros</button>
             <button type="button" onClick={() => navigateTo('what-we-do')} className="hover:text-blue-500 font-medium transition-colors cursor-pointer">¿Qué Hacemos?</button>
-            <button type="button" onClick={() => scrollToSection('research')} className="hover:text-blue-500 font-medium transition-colors cursor-pointer">Investigación</button>
+            <button type="button" onClick={() => navigateTo('research-list')} className="hover:text-blue-500 font-medium transition-colors cursor-pointer">Investigación</button>
             <button type="button" onClick={() => scrollToSection('activities')} className="hover:text-blue-500 font-medium transition-colors cursor-pointer">Actividades</button>
             <button type="button" onClick={() => scrollToSection('team')} className="hover:text-blue-500 font-medium transition-colors cursor-pointer">Equipo</button>
             <button type="button" onClick={() => scrollToSection('publications')} className="hover:text-blue-500 font-medium transition-colors cursor-pointer">Publicaciones</button>
@@ -1230,7 +1607,7 @@ function AppContent() {
           <div className="md:hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-slate-100 p-6 flex flex-col gap-2 animate-in fade-in duration-200">
             <NavLink mobile onClick={() => { setMobileMenuOpen(false); navigateTo('about-us'); }}>Nosotros</NavLink>
             <NavLink mobile onClick={() => { setMobileMenuOpen(false); navigateTo('what-we-do'); }}>¿Qué Hacemos?</NavLink>
-            <NavLink mobile onClick={() => scrollToSection('research')}>Investigación</NavLink>
+            <NavLink mobile onClick={() => { setMobileMenuOpen(false); navigateTo('research-list'); }}>Investigación</NavLink>
             <NavLink mobile onClick={() => scrollToSection('activities')}>Actividades</NavLink>
             <NavLink mobile onClick={() => scrollToSection('team')}>Equipo</NavLink>
             <NavLink mobile onClick={() => scrollToSection('publications')}>Publicaciones</NavLink>
@@ -1296,7 +1673,7 @@ function AppContent() {
 
               <button
                 type="button"
-                onClick={() => { setSideDrawerOpen(false); scrollToSection('research'); }}
+                onClick={() => { setSideDrawerOpen(false); navigateTo('research-list'); }}
                 className="flex items-center gap-3.5 px-3.5 py-3 text-left rounded-xl text-slate-700 hover:text-blue-600 hover:bg-blue-50/70 font-semibold text-sm transition-all cursor-pointer group"
               >
                 <div className="p-1.5 rounded-lg bg-indigo-50 text-indigo-600 group-hover:bg-indigo-100 group-hover:text-indigo-700 transition-colors">
@@ -1363,6 +1740,17 @@ function AppContent() {
           onContact={() => setIsContactModalOpen(true)}
           institutionalInfo={institutionalInfo}
         />
+      ) : route.view === 'research-list' ? (
+        /* VISTA DEDICADA: INVESTIGACIÓN (LÍNEAS Y PROYECTOS) */
+        <ResearchView
+          lineasInvestigacion={lineasInvestigacion}
+          proyectos={proyectos}
+          selectedLineaId={route.id || 1}
+          onSelectLinea={(id) => navigateTo('research-list', id)}
+          onSelectProject={(proj) => handleViewResearch(proj)}
+          onBack={() => navigateTo('landing')}
+          institutionalInfo={institutionalInfo}
+        />
       ) : route.view === 'what-we-do' ? (
         <div className="pt-32 pb-24 min-h-screen bg-slate-50 animate-in fade-in duration-300">
           <div className="container mx-auto px-6 max-w-6xl">
@@ -1383,7 +1771,8 @@ function AppContent() {
                 ¿Qué Hacemos?
               </h1>
               
-              <div className="bg-white rounded-3xl border-2 border-[#2f9fb3] shadow-sm mb-12 overflow-hidden flex flex-col lg:flex-row relative">
+              {/* Recuadro principal con borde #2f9fb3 y carrusel diagonal */}
+              <div className="bg-white rounded-3xl border-2 border-[#2f9fb3] shadow-sm mb-14 overflow-hidden flex flex-col lg:flex-row relative">
                 {/* Texto a la izquierda */}
                 <div className="p-8 sm:p-10 lg:w-7/12 flex flex-col justify-center relative z-10">
                   <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-normal mb-5">
@@ -1396,7 +1785,6 @@ function AppContent() {
 
                 {/* Carrusel a la derecha cortado de manera diagonal hacia el texto */}
                 <div className="relative lg:w-5/12 min-h-[320px] sm:min-h-[380px] lg:min-h-full overflow-hidden bg-slate-900">
-                  {/* Corte diagonal para pantallas grandes */}
                   <div 
                     className="w-full h-full relative overflow-hidden [clip-path:none] lg:[clip-path:polygon(12%_0%,100%_0%,100%_100%,0%_100%)]"
                   >
@@ -1413,143 +1801,134 @@ function AppContent() {
                 </div>
               </div>
 
-              {/* Enlace destacado hacia Sobre Nosotros */}
-              <div className="mb-14 p-6 sm:p-8 bg-white rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 hover:shadow-md transition-shadow">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl shrink-0">
-                    <Sparkles size={24} />
+              {/* SECCIÓN MISIÓN Y VISIÓN CON SUS RESPECTIVOS CARRUSELES (2 FOTOS CADA UNO) */}
+              <div className="grid md:grid-cols-2 gap-8 mb-14">
+                {/* MISIÓN INSTITUCIONAL */}
+                <div className="bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-md transition-shadow">
+                  <div className="p-8 sm:p-10 flex flex-col flex-grow">
+                    <div className="w-14 h-14 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center mb-6 border border-teal-100 shadow-2xs">
+                      <Target size={28} />
+                    </div>
+                    <h2 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">
+                      Misión Institucional
+                    </h2>
+                    <div className="text-slate-600 leading-relaxed space-y-4 text-sm sm:text-base flex-grow">
+                      {(institutionalInfo?.mision || '').split('\n\n').map((parrafo, i) => (
+                        <p key={i}>{parrafo}</p>
+                      ))}
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900 mb-1">
-                      Conoce más sobre Nuestra Identidad Institucional
-                    </h3>
-                    <p className="text-slate-600 text-sm">
-                      Descubre nuestra misión, visión, los 4 ejes estratégicos y el modelo formativo de capital humano desde el pregrado en LaTSIB.
+
+                  {/* Carrusel inferior de 2 imágenes de la Misión */}
+                  <div className="h-64 sm:h-72 w-full overflow-hidden relative border-t border-slate-100 bg-slate-900">
+                    <ImageSlider 
+                      items={[
+                        { url: misionImg1, descripcion: "Mediciones y experimentación en laboratorio" },
+                        { url: misionImg2, descripcion: "Sensores y señales biomédicas" }
+                      ]}
+                      autoSlide={true}
+                      autoSlideInterval={3800}
+                    />
+                  </div>
+                </div>
+
+                {/* VISIÓN DE FUTURO */}
+                <div className="bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-md transition-shadow">
+                  <div className="p-8 sm:p-10 flex flex-col flex-grow">
+                    <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 border border-blue-100 shadow-2xs">
+                      <Eye size={28} />
+                    </div>
+                    <h2 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">
+                      Visión de Futuro
+                    </h2>
+                    <div className="text-slate-600 leading-relaxed space-y-4 text-sm sm:text-base flex-grow">
+                      {(institutionalInfo?.vision || '').split('\n\n').map((parrafo, i) => (
+                        <p key={i}>{parrafo}</p>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Carrusel inferior de 2 imágenes de la Visión */}
+                  <div className="h-64 sm:h-72 w-full overflow-hidden relative border-t border-slate-100 bg-slate-900">
+                    <ImageSlider 
+                      items={[
+                        { url: visionImg1, descripcion: "Evaluación clínica y protocolos biomédicos" },
+                        { url: visionImg2, descripcion: "Reunión de equipo e investigación colaborativa" }
+                      ]}
+                      autoSlide={true}
+                      autoSlideInterval={4200}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* INFORMACIÓN INSTITUCIONAL INTEGRADA: EJES ESTRATÉGICOS */}
+              {institutionalInfo?.ejesEstrategicos && institutionalInfo.ejesEstrategicos.length > 0 && (
+                <div className="mb-14">
+                  <div className="text-center max-w-3xl mx-auto mb-10">
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-500 block mb-2">
+                      Lineamientos Directores
+                    </span>
+                    <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-3">
+                      Ejes Estratégicos del Laboratorio
+                    </h2>
+                    <p className="text-slate-600 text-sm sm:text-base">
+                      Pilares fundamentales que articulan la actividad científica, formativa y de transferencia tecnológica de LaTSIB.
                     </p>
                   </div>
+
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {institutionalInfo.ejesEstrategicos.map((eje, idx) => (
+                      <div
+                        key={idx}
+                        className="bg-white p-7 rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+                      >
+                        <div>
+                          <div className="flex items-center justify-between mb-4">
+                            <span className="text-3xl font-black text-slate-200">
+                              {eje.numero}
+                            </span>
+                            <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-600 border border-slate-100">
+                              {idx === 0 ? <Atom size={20} className="text-blue-600" /> :
+                               idx === 1 ? <GraduationCap size={20} className="text-teal-600" /> :
+                               idx === 2 ? <HeartPulse size={20} className="text-rose-600" /> :
+                                           <Globe size={20} className="text-indigo-600" />}
+                            </div>
+                          </div>
+                          <h3 className="text-lg font-bold text-slate-900 mb-3 leading-snug">
+                            {eje.titulo}
+                          </h3>
+                          <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                            {eje.descripcion}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Botón de acceso a Líneas de Investigación */}
+              <div className="p-8 sm:p-10 bg-gradient-to-r from-blue-900 via-slate-900 to-teal-900 text-white rounded-3xl shadow-lg flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
+                <div>
+                  <span className="text-xs uppercase font-bold tracking-widest text-teal-300 block mb-2">
+                    Investigación Científica
+                  </span>
+                  <h3 className="text-2xl font-bold mb-2">
+                    Conoce nuestras Líneas de Investigación
+                  </h3>
+                  <p className="text-slate-200 text-sm max-w-2xl leading-relaxed">
+                    Explora las cuatro líneas institucionales, sus alcances metodológicos y todos los proyectos de investigación desarrollados en LaTSIB.
+                  </p>
                 </div>
                 <button
                   type="button"
-                  onClick={() => navigateTo('about-us')}
-                  className="shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-sm shadow-sm transition-all cursor-pointer"
+                  onClick={() => navigateTo('research-list')}
+                  className="shrink-0 px-8 py-3.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl transition-all shadow-md cursor-pointer text-sm flex items-center gap-2"
                 >
-                  <span>Sobre Nosotros</span>
-                  <ChevronRight size={16} />
+                  <span>Ver Investigación</span>
+                  <ChevronRight size={18} />
                 </button>
-              </div>
-            </div>
-
-            {/* Líneas de Investigación Institucionales */}
-            <div className="mb-16">
-              <div className="flex items-center gap-3 mb-4 pb-3 border-b border-slate-200">
-                <div className="p-2 rounded-xl bg-teal-100 text-teal-700">
-                  <Cpu size={22} />
-                </div>
-                <div>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-                    Líneas de Investigación Institucionales
-                  </h2>
-                  <p className="text-xs sm:text-sm text-slate-500 font-medium">
-                    Cuatro líneas desarrolladas por el Dr. Raúl Caulier Cisterna que articulan el trabajo científico en LaTSIB
-                  </p>
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-8 mb-10">
-                {(lineasInvestigacion || []).map((linea) => (
-                  <div
-                    key={linea.id}
-                    className="bg-white rounded-3xl p-8 border border-slate-200/90 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
-                  >
-                    <div>
-                      <div className="flex items-center justify-between gap-3 mb-4">
-                        <span className="px-3 py-1 rounded-full text-xs font-bold bg-teal-50 text-teal-700 border border-teal-100">
-                          {linea.badge}
-                        </span>
-                        <span className="text-2xl font-black text-slate-300">
-                          {linea.numero}
-                        </span>
-                      </div>
-                      <div className="flex items-start gap-3.5 mb-4">
-                        <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100 shrink-0">
-                          {linea.id === 1 ? <Brain className="w-6 h-6 text-purple-600" /> :
-                           linea.id === 2 ? <Activity className="w-6 h-6 text-teal-600" /> :
-                           linea.id === 3 ? <HeartPulse className="w-6 h-6 text-rose-600" /> :
-                                            <Cpu className="w-6 h-6 text-blue-600" />}
-                        </div>
-                        <h3 className="text-lg font-bold text-slate-900 leading-snug">
-                          {linea.nombreCompleto || linea.titulo}
-                        </h3>
-                      </div>
-                      <p className="text-slate-600 text-sm leading-relaxed mb-4">
-                        {linea.descripcion}
-                      </p>
-                      {linea.enfoque && (
-                        <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 text-xs text-slate-600 leading-relaxed">
-                          <strong className="text-slate-800 block mb-1">Alcance y Enfoque Metodológico:</strong>
-                          {linea.enfoque}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Articulación de las líneas */}
-              <div className="p-7 sm:p-9 bg-gradient-to-r from-blue-900 via-slate-900 to-teal-900 text-white rounded-3xl shadow-md">
-                <span className="text-xs uppercase font-bold tracking-widest text-teal-300 block mb-2">
-                  Articulación Científica
-                </span>
-                <h4 className="text-xl font-bold mb-3">
-                  Complementariedad y Sinergia Metodológica
-                </h4>
-                <p className="text-slate-200 text-sm sm:text-base leading-relaxed">
-                  {institutionalInfo?.articulacionLineas}
-                </p>
-              </div>
-            </div>
-
-            {/* Proyectos de Investigación */}
-            <div className="mb-12">
-              <div className="flex items-center gap-3 mb-8 pb-3 border-b border-slate-200">
-                <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-                  Proyectos de Investigación Desarrollados en el Laboratorio
-                </h2>
-                <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-blue-100 text-blue-700">
-                  {proyectos.length} proyectos
-                </span>
-              </div>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {proyectos.map((item, idx) => (
-                  <div
-                    key={item.id || idx}
-                    onClick={() => handleViewResearch(item)}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleViewResearch(item); } }}
-                    className={`group flex flex-col h-full cursor-pointer bg-white p-6 sm:p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 hover:-translate-y-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gradient-to-br ${item.color || 'from-slate-50 to-white'} relative`}
-                  >
-                    {item.badge && (
-                      <div className="absolute top-4 right-4 bg-teal-600/90 backdrop-blur-xs text-white text-[11px] font-bold px-3 py-1 rounded-full border border-teal-400 z-10 shadow-sm">
-                        {item.badge}
-                      </div>
-                    )}
-                    <div className="mb-6 p-4 bg-white/80 backdrop-blur-sm rounded-2xl w-fit group-hover:bg-white group-hover:scale-105 transition-all border border-white/60 shadow-sm">
-                      <Atom className="w-8 h-8 text-[#1f7a8c]" />
-                    </div>
-                    {item.linea && (
-                      <span className="text-[11px] font-bold text-blue-600 uppercase tracking-wider mb-2 block">
-                        {item.linea}
-                      </span>
-                    )}
-                    <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-700 transition-colors leading-snug">{item.titulo}</h3>
-                    <p className="text-slate-600 leading-relaxed flex-grow line-clamp-3 mb-6 text-sm">{item.desc}</p>
-                    <div className="mt-auto pt-4 border-t border-slate-200/60 flex items-center justify-between text-blue-700 font-bold text-sm">
-                      <span>Ver proyecto completo</span>
-                      <ChevronRight size={16} className="transform group-hover:translate-x-1.5 transition-transform" />
-                    </div>
-                  </div>
-                ))}
               </div>
             </div>
           </div>
@@ -1814,7 +2193,7 @@ function AppContent() {
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start w-full sm:w-auto">
                   <button
                     type="button"
-                    onClick={() => scrollToSection('research')}
+                    onClick={() => navigateTo('research-list')}
                     className="w-full sm:w-auto px-7 py-3.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2 group shadow-lg shadow-cyan-950/50 border border-cyan-400/30 cursor-pointer text-sm sm:text-base hover:scale-[1.02] active:scale-[0.98]"
                   >
                     Nuestras Líneas <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -1904,7 +2283,7 @@ function AppContent() {
                         <div>
                           <button
                             type="button"
-                            onClick={() => navigateTo('what-we-do')}
+                            onClick={() => navigateTo('research-list', linea.id)}
                             className="inline-flex items-center gap-1.5 text-cyan-600 hover:text-cyan-700 font-bold text-sm cursor-pointer group/btn"
                           >
                             <span>Explorar proyectos</span>
@@ -2247,6 +2626,14 @@ function AppContent() {
       <MemberDetailModal
         member={selectedMember}
         onClose={() => setSelectedMember(null)}
+      />
+
+      {/* MODAL DE LÍNEA DE INVESTIGACIÓN COMPLETA */}
+      <LineaDetailModal
+        linea={selectedLineaModal}
+        proyectos={proyectos}
+        onClose={() => setSelectedLineaModal(null)}
+        onSelectProject={(proj) => handleViewResearch(proj)}
       />
     </div>
   );
