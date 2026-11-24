@@ -15,6 +15,9 @@ import heroPatternTransparent from './assets/hero-pattern-transparent.png';
 import heroTeamImg from './assets/hero-team.jpg';
 import heroTeamImg2 from './assets/hero-team-2.jpg';
 import heroTeamImg3 from './assets/hero-team-3.jpg';
+import queHacemosImg1 from './assets/que-hacemos-1.jpg';
+import queHacemosImg2 from './assets/que-hacemos-2.jpg';
+import queHacemosImg3 from './assets/que-hacemos-3.jpg';
 
 // --- COMPONENTES AUXILIARES DE LA WEB PÚBLICA ---
 
@@ -1380,15 +1383,34 @@ function AppContent() {
                 ¿Qué Hacemos?
               </h1>
               
-              <div className="bg-gradient-to-br from-blue-900 via-slate-900 to-teal-900 rounded-3xl p-8 sm:p-10 text-white shadow-xl mb-12 relative overflow-hidden">
-                <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
-                <div className="absolute -left-10 -top-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
-                <p className="text-lg sm:text-xl text-slate-100 leading-relaxed font-normal mb-6 relative z-10">
-                  En el <span className="font-bold text-teal-300">Laboratorio de Biomédica Traslacional (LaTSIB)</span> de la Universidad Tecnológica Metropolitana (UTEM), unimos la ingeniería, la ciencia de datos y la medicina para transformar datos biológicos complejos en soluciones de salud reales y no invasivas. Desarrollamos investigación aplicada en el área de la ingeniería biomédica, utilizando señales, imágenes y datos para comprender fenómenos biológicos y aportar al desarrollo de nuevas herramientas para la salud.
-                </p>
-                <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal relative z-10">
-                  Trabajamos en el procesamiento y análisis de señales e imágenes biomédicas, el estudio de la respuesta neurovascular mediante tecnologías como fNIRS, la modelación y simulación de fenómenos fisiológicos, y el desarrollo de soluciones inteligentes que integran tecnologías como inteligencia artificial y aprendizaje automático. Nuestra investigación busca conectar la ingeniería con las necesidades reales de las personas, generando conocimiento, herramientas y soluciones con potencial de aplicación clínica y tecnológica.
-                </p>
+              <div className="bg-white rounded-3xl border-2 border-[#2f9fb3] shadow-sm mb-12 overflow-hidden flex flex-col lg:flex-row relative">
+                {/* Texto a la izquierda */}
+                <div className="p-8 sm:p-10 lg:w-7/12 flex flex-col justify-center relative z-10">
+                  <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-normal mb-5">
+                    En el <span className="font-bold text-[#1f7a8c]">Laboratorio de Biomédica Traslacional (LaTSIB)</span> de la Universidad Tecnológica Metropolitana (UTEM), unimos la ingeniería, la ciencia de datos y la medicina para transformar datos biológicos complejos en soluciones de salud reales y no invasivas. Desarrollamos investigación aplicada en el área de la ingeniería biomédica, utilizando señales, imágenes y datos para comprender fenómenos biológicos y aportar al desarrollo de nuevas herramientas para la salud.
+                  </p>
+                  <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+                    Trabajamos en el procesamiento y análisis de señales e imágenes biomédicas, el estudio de la respuesta neurovascular mediante tecnologías como fNIRS, la modelación y simulación de fenómenos fisiológicos, y el desarrollo de soluciones inteligentes que integran tecnologías como inteligencia artificial y aprendizaje automático. Nuestra investigación busca conectar la ingeniería con las necesidades reales de las personas, generando conocimiento, herramientas y soluciones con potencial de aplicación clínica y tecnológica.
+                  </p>
+                </div>
+
+                {/* Carrusel a la derecha cortado de manera diagonal hacia el texto */}
+                <div className="relative lg:w-5/12 min-h-[320px] sm:min-h-[380px] lg:min-h-full overflow-hidden bg-slate-900">
+                  {/* Corte diagonal para pantallas grandes */}
+                  <div 
+                    className="w-full h-full relative overflow-hidden [clip-path:none] lg:[clip-path:polygon(12%_0%,100%_0%,100%_100%,0%_100%)]"
+                  >
+                    <ImageSlider 
+                      items={[
+                        { url: queHacemosImg1, descripcion: "Monitoreo de señales fisiológicas" },
+                        { url: queHacemosImg2, descripcion: "Investigación clínica y traslacional" },
+                        { url: queHacemosImg3, descripcion: "Dispositivos biomédicos y rehabilitación" }
+                      ]} 
+                      autoSlide={true}
+                      autoSlideInterval={4000}
+                    />
+                  </div>
+                </div>
               </div>
 
               {/* Enlace destacado hacia Sobre Nosotros */}
@@ -1895,14 +1917,14 @@ function AppContent() {
                 );
               })()}
 
-              {/* Botón Ver todos los proyectos */}
+              {/* Botón Conoce más sobre nosotros */}
               <div className="text-center">
                 <button
                   type="button"
                   onClick={() => navigateTo('what-we-do')}
                   className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-cyan-700 border border-cyan-500/40 rounded-full font-bold shadow-xs hover:shadow-md hover:bg-cyan-50/50 hover:border-cyan-500 transition-all group cursor-pointer text-sm"
                 >
-                  Ver todos los proyectos <span className="group-hover:translate-x-1 transition-transform">→</span>
+                  Conoce más sobre nosotros <span className="group-hover:translate-x-1 transition-transform">→</span>
                 </button>
               </div>
             </div>
