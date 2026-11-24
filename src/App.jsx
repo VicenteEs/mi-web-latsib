@@ -1787,74 +1787,115 @@ function AppContent() {
 
           <section id="research" className="py-24 bg-white">
             <div className="container mx-auto px-6">
-              <SectionTitle subtitle="Líneas de investigación institucionales que articulan inteligencia artificial, procesamiento avanzado de señales y tecnologías biomédicas traslacionales.">
+              <SectionTitle subtitle="Áreas de investigación que integran inteligencia artificial, procesamiento avanzado de señales y tecnologías biomédicas traslacionales.">
                 Líneas de Investigación
               </SectionTitle>
 
-              {/* Grid de las 4 líneas oficiales */}
-              <div className="grid md:grid-cols-2 gap-8 mb-12">
-                {(lineasInvestigacion || []).map((linea) => (
-                  <div
-                    key={linea.id}
-                    className="group bg-slate-50/70 hover:bg-white rounded-3xl p-8 border border-slate-200 hover:border-blue-300 hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
-                  >
-                    <div>
-                      <div className="flex items-center justify-between gap-3 mb-5">
-                        <span className="px-3 py-1 rounded-full text-xs font-bold bg-teal-100 text-teal-800 border border-teal-200">
-                          {linea.badge}
-                        </span>
-                        <span className="text-3xl font-black text-slate-300 group-hover:text-blue-500 transition-colors">
-                          {linea.numero}
-                        </span>
-                      </div>
-                      <div className="flex items-start gap-4 mb-4">
-                        <div className="p-3 rounded-2xl bg-white shadow-sm border border-slate-100 shrink-0 group-hover:scale-105 transition-transform">
-                          {linea.id === 1 ? <Brain className="w-7 h-7 text-purple-600" /> :
-                           linea.id === 2 ? <Activity className="w-7 h-7 text-teal-600" /> :
-                           linea.id === 3 ? <HeartPulse className="w-7 h-7 text-rose-600" /> :
-                                            <Cpu className="w-7 h-7 text-blue-600" />}
-                        </div>
-                        <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-700 transition-colors leading-snug">
-                          {linea.titulo}
-                        </h3>
-                      </div>
-                      <p className="text-slate-600 text-sm leading-relaxed mb-4">
-                        {linea.descripcion}
-                      </p>
-                    </div>
-                    <div className="pt-4 border-t border-slate-200/60 mt-auto flex items-center justify-between text-xs text-slate-500">
-                      <span className="font-semibold text-slate-700">Enfoque metodológico riguroso</span>
-                      <button
-                        type="button"
-                        onClick={() => navigateTo('what-we-do')}
-                        className="inline-flex items-center gap-1 font-bold text-blue-600 hover:text-blue-800 cursor-pointer"
-                      >
-                        Ver proyectos <ChevronRight size={14} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              {/* Bento Grid: 1 tarjeta grande + 3 complementarias */}
+              {(() => {
+                const lineas = lineasInvestigacion || [];
+                const featured = lineas[0];
+                const rest = lineas.slice(1);
+                const iconMap = {
+                  1: <Brain className="w-6 h-6 text-blue-600" />,
+                  2: <Activity className="w-6 h-6 text-teal-600" />,
+                  3: <HeartPulse className="w-6 h-6 text-rose-600" />,
+                  4: <Cpu className="w-6 h-6 text-blue-600" />
+                };
+                const iconBgMap = {
+                  1: 'bg-blue-50 border-blue-100',
+                  2: 'bg-teal-50 border-teal-100',
+                  3: 'bg-rose-50 border-rose-100',
+                  4: 'bg-blue-50 border-blue-100'
+                };
+                const decorGradients = {
+                  1: 'from-blue-500/8 via-cyan-500/5 to-transparent',
+                  2: 'from-teal-500/8 via-emerald-500/5 to-transparent',
+                  3: 'from-rose-500/8 via-pink-500/5 to-transparent',
+                  4: 'from-blue-500/8 via-indigo-500/5 to-transparent'
+                };
 
-              {/* Banner de Articulación de Líneas */}
-              <div className="bg-gradient-to-r from-blue-900 via-slate-900 to-teal-900 rounded-3xl p-8 sm:p-10 text-white shadow-lg flex flex-col lg:flex-row items-center justify-between gap-8">
-                <div className="max-w-3xl">
-                  <span className="text-xs font-bold uppercase tracking-wider text-teal-300 block mb-2">
-                    Articulación Científica
-                  </span>
-                  <h4 className="text-xl sm:text-2xl font-bold mb-3">
-                    Integración y Sinergia de las Líneas
-                  </h4>
-                  <p className="text-slate-200 text-sm sm:text-base leading-relaxed">
-                    {institutionalInfo?.articulacionLineas}
-                  </p>
-                </div>
+                return (
+                  <div className="grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-2 gap-6 mb-12">
+                    {/* Tarjeta Principal (Featured) - Ocupa 1 col x 2 rows */}
+                    {featured && (
+                      <div className="lg:row-span-2 group relative bg-white rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
+                        {/* Decorative gradient overlay */}
+                        <div className={`absolute inset-0 bg-gradient-to-br ${decorGradients[featured.id]} pointer-events-none`} />
+                        {/* Decorative pattern */}
+                        <div className="absolute top-0 right-0 w-64 h-64 opacity-[0.03] pointer-events-none">
+                          <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="100" cy="100" r="80" stroke="currentColor" strokeWidth="1" className="text-blue-900"/>
+                            <circle cx="100" cy="100" r="60" stroke="currentColor" strokeWidth="1" className="text-blue-900"/>
+                            <circle cx="100" cy="100" r="40" stroke="currentColor" strokeWidth="1" className="text-blue-900"/>
+                            <line x1="20" y1="100" x2="180" y2="100" stroke="currentColor" strokeWidth="0.5" className="text-blue-900"/>
+                            <line x1="100" y1="20" x2="100" y2="180" stroke="currentColor" strokeWidth="0.5" className="text-blue-900"/>
+                          </svg>
+                        </div>
+                        <div className="relative z-10 p-8 sm:p-10 flex flex-col h-full">
+                          <div className={`w-12 h-12 rounded-2xl ${iconBgMap[featured.id]} border flex items-center justify-center mb-6 shadow-sm`}>
+                            {iconMap[featured.id]}
+                          </div>
+                          <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4 leading-tight tracking-tight group-hover:text-blue-700 transition-colors">
+                            {featured.titulo}
+                          </h3>
+                          <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6 flex-grow">
+                            {featured.descripcion}
+                          </p>
+                          <button
+                            type="button"
+                            onClick={() => navigateTo('what-we-do')}
+                            className="inline-flex items-center gap-1.5 text-blue-600 hover:text-blue-800 font-bold text-sm cursor-pointer mt-auto group/btn"
+                          >
+                            Ver proyectos <ChevronRight size={15} className="transform group-hover/btn:translate-x-1 transition-transform" />
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Tarjetas complementarias - 2 cols a la derecha */}
+                    {rest.map((linea, idx) => (
+                      <div
+                        key={linea.id}
+                        className={`group relative bg-white rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col ${idx === 0 ? 'lg:col-span-2' : ''}`}
+                      >
+                        <div className={`absolute inset-0 bg-gradient-to-br ${decorGradients[linea.id]} pointer-events-none`} />
+                        <div className="relative z-10 p-7 sm:p-8 flex flex-col h-full">
+                          <div className="flex items-start gap-4 mb-4">
+                            <div className={`w-11 h-11 rounded-xl ${iconBgMap[linea.id]} border flex items-center justify-center shrink-0 shadow-sm`}>
+                              {iconMap[linea.id]}
+                            </div>
+                            <div>
+                              <h3 className="text-lg font-bold text-slate-900 leading-snug group-hover:text-blue-700 transition-colors">
+                                {linea.titulo}
+                              </h3>
+                            </div>
+                          </div>
+                          <p className="text-slate-600 text-sm leading-relaxed mb-5 flex-grow">
+                            {linea.descripcion}
+                          </p>
+                          <button
+                            type="button"
+                            onClick={() => navigateTo('what-we-do')}
+                            className="inline-flex items-center gap-1.5 text-blue-600 hover:text-blue-800 font-bold text-sm cursor-pointer mt-auto group/btn"
+                          >
+                            Ver proyectos <ChevronRight size={15} className="transform group-hover/btn:translate-x-1 transition-transform" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                );
+              })()}
+
+              {/* Botón Ver todos los proyectos */}
+              <div className="text-center">
                 <button
                   type="button"
                   onClick={() => navigateTo('what-we-do')}
-                  className="shrink-0 px-7 py-3.5 bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold rounded-xl transition-all shadow-md cursor-pointer text-sm flex items-center gap-2"
+                  className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-blue-600 border border-blue-200 rounded-full font-bold shadow-sm hover:shadow-md hover:bg-blue-50 transition-all group cursor-pointer"
                 >
-                  Explorar Proyectos y Metodologías <ChevronRight size={16} />
+                  Ver todos los proyectos <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
             </div>
