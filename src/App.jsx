@@ -1774,11 +1774,11 @@ function AppContent() {
               {/* Recuadro principal con borde #2f9fb3 y carrusel diagonal */}
               <div className="bg-white rounded-3xl border-2 border-[#2f9fb3] shadow-sm mb-14 overflow-hidden flex flex-col lg:flex-row relative">
                 {/* Texto a la izquierda */}
-                <div className="p-8 sm:p-10 lg:w-7/12 flex flex-col justify-center relative z-10">
-                  <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-normal mb-5">
+                <div className="p-8 sm:p-10 lg:p-12 lg:w-7/12 flex flex-col justify-center relative z-10">
+                  <p className="text-lg sm:text-xl lg:text-[19px] xl:text-[20px] text-slate-700 leading-relaxed font-normal mb-6">
                     En el <span className="font-bold text-[#1f7a8c]">Laboratorio de Biomédica Traslacional (LaTSIB)</span> de la Universidad Tecnológica Metropolitana (UTEM), unimos la ingeniería, la ciencia de datos y la medicina para transformar datos biológicos complejos en soluciones de salud reales y no invasivas. Desarrollamos investigación aplicada en el área de la ingeniería biomédica, utilizando señales, imágenes y datos para comprender fenómenos biológicos y aportar al desarrollo de nuevas herramientas para la salud.
                   </p>
-                  <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+                  <p className="text-base sm:text-lg lg:text-[17px] xl:text-[18px] text-slate-600 leading-relaxed font-normal">
                     Trabajamos en el procesamiento y análisis de señales e imágenes biomédicas, el estudio de la respuesta neurovascular mediante tecnologías como fNIRS, la modelación y simulación de fenómenos fisiológicos, y el desarrollo de soluciones inteligentes que integran tecnologías como inteligencia artificial y aprendizaje automático. Nuestra investigación busca conectar la ingeniería con las necesidades reales de las personas, generando conocimiento, herramientas y soluciones con potencial de aplicación clínica y tecnológica.
                   </p>
                 </div>
