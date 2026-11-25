@@ -2,8 +2,8 @@ name: Sincronizar con el repo original
 
 on:
   schedule:
-    - cron: "*/15 * * * *"   # cada hora, al minuto 17
-  workflow_dispatch:        # permite correrlo a mano
+    - cron: "2-59/5 * * * *"   # Cada 5 minutos, fuera del inicio de la hora
+  workflow_dispatch:
 
 permissions:
   contents: write
