@@ -106,7 +106,7 @@ const HeroSlider = ({ brainImg, teamImg, teamImg2, teamImg3, customSlides }) => 
 };
 
 // Carrusel de imágenes general
-const ImageSlider = ({ items, autoSlide = true, autoSlideInterval = 3500 }) => {
+const ImageSlider = ({ items, autoSlide = true, autoSlideInterval = 3500, fitMode = "cover" }) => {
   const [curr, setCurr] = useState(0);
   const validItems = (items || []).filter(item => item && item.url && item.url.trim() !== '');
 
@@ -122,20 +122,38 @@ const ImageSlider = ({ items, autoSlide = true, autoSlideInterval = 3500 }) => {
   if (validItems.length === 0) return null;
 
   return (
-    <div className="overflow-hidden relative h-full w-full group">
+    <div className="overflow-hidden relative h-full w-full group select-none">
       <div className="flex transition-transform ease-out duration-500 h-full" style={{ transform: `translateX(-${curr * 100}%)` }}>
         {validItems.map((item, i) => (
-          <img key={i} src={item.url} alt={item.descripcion || ""} className="w-full h-full object-cover flex-shrink-0" />
+          <div key={i} className="relative w-full h-full flex-shrink-0 flex items-center justify-center overflow-hidden bg-slate-950">
+            {/* Fondo con desenfoque suave para no dejar bordes negros vacíos y dar profundidad estética */}
+            <img 
+              src={item.url} 
+              alt="" 
+              className="absolute inset-0 w-full h-full object-cover blur-xl opacity-40 scale-110 pointer-events-none" 
+              aria-hidden="true"
+            />
+            {/* Imagen principal completa y nítida */}
+            <img 
+              src={item.url} 
+              alt={item.descripcion || ""} 
+              className={`relative z-10 w-full h-full ${
+                fitMode === "contain" 
+                  ? "object-contain p-1 sm:p-2" 
+                  : (item.objectPosition ? `object-cover ${item.objectPosition}` : "object-cover")
+              }`} 
+            />
+          </div>
         ))}
       </div>
       {validItems.length > 1 && (
         <>
-          <div className="absolute inset-0 flex items-center justify-between p-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          <div className="absolute inset-0 flex items-center justify-between p-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
             <button
               type="button"
               aria-label="Imagen anterior"
               onClick={(e) => { e.stopPropagation(); prev(); }}
-              className="p-1.5 rounded-full shadow-md bg-white/90 text-gray-800 hover:bg-white hover:scale-110 transition-all pointer-events-auto cursor-pointer"
+              className="p-1.5 rounded-full shadow-md bg-white/90 text-gray-800 hover:bg-white hover:scale-110 transition-all pointer-events-auto cursor-pointer backdrop-blur-xs"
             >
               <ChevronLeft size={18} />
             </button>
@@ -143,12 +161,12 @@ const ImageSlider = ({ items, autoSlide = true, autoSlideInterval = 3500 }) => {
               type="button"
               aria-label="Siguiente imagen"
               onClick={(e) => { e.stopPropagation(); next(); }}
-              className="p-1.5 rounded-full shadow-md bg-white/90 text-gray-800 hover:bg-white hover:scale-110 transition-all pointer-events-auto cursor-pointer"
+              className="p-1.5 rounded-full shadow-md bg-white/90 text-gray-800 hover:bg-white hover:scale-110 transition-all pointer-events-auto cursor-pointer backdrop-blur-xs"
             >
               <ChevronRight size={18} />
             </button>
           </div>
-          <div className="absolute bottom-2 right-0 left-0 pointer-events-none">
+          <div className="absolute bottom-2 right-0 left-0 pointer-events-none z-20">
             <div className="flex items-center justify-center gap-1.5">
               {validItems.map((_, i) => (
                 <div key={i} className={`transition-all rounded-full ${curr === i ? "w-4 h-1.5 bg-white shadow-sm" : "w-1.5 h-1.5 bg-white/60"}`} />
@@ -663,8 +681,9 @@ const AboutView = ({ onBack, onNavigateWhatWeDo, onContact, institutionalInfo })
 const ResearchView = ({ 
   lineasInvestigacion = [], 
   proyectos = [], 
-  selectedLineaId, 
+  selectedLineaId = null, 
   onSelectLinea, 
+  onShowAllLineas,
   onSelectProject, 
   onBack,
   institutionalInfo 
@@ -673,12 +692,15 @@ const ResearchView = ({
     window.scrollTo(0, 0);
   }, [selectedLineaId]);
 
-  const activeLinea = lineasInvestigacion.find(l => l.id === selectedLineaId) || lineasInvestigacion[0] || {};
-  const otherLineas = lineasInvestigacion.filter(l => l.id !== activeLinea.id);
+  // Si selectedLineaId viene definido (por ejemplo, desde la página de inicio), se muestra en grande.
+  const activeLinea = selectedLineaId ? lineasInvestigacion.find(l => l.id === selectedLineaId) : null;
+  const otherLineas = activeLinea ? lineasInvestigacion.filter(l => l.id !== activeLinea.id) : [];
 
-  const associatedProjects = proyectos.filter(
-    (p) => p.lineaId === activeLinea.id || (p.linea && p.linea.toLowerCase().includes(activeLinea.titulo?.toLowerCase().split(' ')[0]))
-  );
+  const associatedProjects = activeLinea
+    ? proyectos.filter(
+        (p) => p.lineaId === activeLinea.id || (p.linea && p.linea.toLowerCase().includes(activeLinea.titulo?.toLowerCase().split(' ')[0]))
+      )
+    : [];
 
   const iconMap = {
     1: <Brain className="w-8 h-8 text-purple-600" />,
@@ -688,17 +710,17 @@ const ResearchView = ({
   };
 
   const smallIconMap = {
-    1: <Brain className="w-5 h-5 text-purple-600" />,
-    2: <Activity className="w-5 h-5 text-teal-600" />,
-    3: <Microscope className="w-5 h-5 text-rose-600" />,
-    4: <Accessibility className="w-5 h-5 text-blue-600" />
+    1: <Brain className="w-6 h-6 text-purple-600" />,
+    2: <Activity className="w-6 h-6 text-teal-600" />,
+    3: <Microscope className="w-6 h-6 text-rose-600" />,
+    4: <Accessibility className="w-6 h-6 text-blue-600" />
   };
 
   return (
     <div className="pt-32 pb-24 min-h-screen bg-slate-50 animate-in fade-in duration-300">
       <div className="container mx-auto px-6 max-w-6xl">
         {/* Botón Volver */}
-        <div className="mb-8">
+        <div className="mb-8 flex items-center justify-between gap-4 flex-wrap">
           <button
             type="button"
             onClick={onBack}
@@ -706,10 +728,20 @@ const ResearchView = ({
           >
             <ArrowLeft size={18} /> Volver al inicio
           </button>
+
+          {activeLinea && (
+            <button
+              type="button"
+              onClick={onShowAllLineas}
+              className="inline-flex items-center gap-2 text-cyan-700 hover:text-cyan-800 font-bold transition-colors bg-cyan-50 px-5 py-2.5 rounded-full shadow-xs border border-cyan-200 cursor-pointer hover:bg-cyan-100/70 text-sm"
+            >
+              <span>Ver las 4 líneas</span>
+            </button>
+          )}
         </div>
 
         {/* Encabezado Principal */}
-        <div className="mb-10">
+        <div className="mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-100 text-blue-700 font-bold text-xs uppercase tracking-wider mb-4">
             <Sparkles size={14} className="text-blue-600" /> Laboratorio LaTSIB · UTEM
           </div>
@@ -721,150 +753,211 @@ const ResearchView = ({
           </p>
         </div>
 
-        {/* LÍNEA SELECCIONADA COMPLETA (Tarjeta Principal Destacada) */}
-        {activeLinea && (
-          <div className="bg-white rounded-3xl border-2 border-[#2f9fb3] shadow-md p-8 sm:p-12 mb-16 relative overflow-hidden">
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-6 border-b border-slate-100">
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-2xl bg-cyan-50 border border-cyan-100 flex items-center justify-center shrink-0 shadow-sm">
-                  {iconMap[activeLinea.id] || <Cpu className="w-8 h-8 text-cyan-600" />}
+        {/* MODO 1: CUANDO SE PINCHA UNA LÍNEA ESPECÍFICA (Se abre en grande + proyectos + otras en pequeño abajo) */}
+        {activeLinea ? (
+          <>
+            <div className="bg-white rounded-3xl border-2 border-[#2f9fb3] shadow-md p-8 sm:p-12 mb-16 relative overflow-hidden">
+              <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-6 border-b border-slate-100">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-2xl bg-cyan-50 border border-cyan-100 flex items-center justify-center shrink-0 shadow-sm">
+                    {iconMap[activeLinea.id] || <Cpu className="w-8 h-8 text-cyan-600" />}
+                  </div>
+                  <div>
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#2f9fb3] block mb-1">
+                      Línea {activeLinea.numero} de Investigación
+                    </span>
+                    <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
+                      {activeLinea.nombreCompleto || activeLinea.titulo}
+                    </h2>
+                  </div>
                 </div>
-                <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#2f9fb3] block mb-1">
-                    Línea {activeLinea.numero} de Investigación
+
+                {activeLinea.badge && (
+                  <span className="px-4 py-1.5 rounded-full text-xs font-bold bg-teal-50 text-teal-800 border border-teal-200">
+                    {activeLinea.badge}
                   </span>
-                  <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
-                    {activeLinea.nombreCompleto || activeLinea.titulo}
-                  </h2>
-                </div>
+                )}
               </div>
 
-              {activeLinea.badge && (
-                <span className="px-4 py-1.5 rounded-full text-xs font-bold bg-teal-50 text-teal-800 border border-teal-200">
-                  {activeLinea.badge}
-                </span>
-              )}
-            </div>
-
-            {/* Descripción principal */}
-            <div className="mb-8">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">
-                Descripción
-              </h3>
-              <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-normal">
-                {activeLinea.descripcion}
-              </p>
-            </div>
-
-            {/* Enfoque metodológico completo */}
-            {activeLinea.enfoque && (
-              <div className="bg-slate-50 rounded-2xl p-6 sm:p-8 border border-slate-200/80 mb-10">
-                <h4 className="text-sm font-bold uppercase tracking-wider text-slate-800 mb-3 flex items-center gap-2">
-                  <Target size={18} className="text-[#2f9fb3]" /> Alcance y Enfoque Metodológico
-                </h4>
-                <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-                  {activeLinea.enfoque}
+              {/* Descripción principal */}
+              <div className="mb-8">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">
+                  Descripción
+                </h3>
+                <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-normal">
+                  {activeLinea.descripcion}
                 </p>
               </div>
-            )}
 
-            {/* Proyectos asociados a esta línea */}
-            <div>
-              <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-100">
-                <h4 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                  <Atom size={20} className="text-[#2f9fb3]" /> Proyectos Asociados a esta Línea ({associatedProjects.length})
-                </h4>
-                <span className="text-xs text-slate-500">Haz clic en un proyecto para ver sus detalles</span>
-              </div>
-
-              {associatedProjects.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {associatedProjects.map((item, idx) => (
-                    <div
-                      key={item.id || idx}
-                      onClick={() => onSelectProject(item)}
-                      role="button"
-                      tabIndex={0}
-                      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelectProject(item); } }}
-                      className="group flex flex-col justify-between p-6 rounded-2xl bg-slate-50/80 hover:bg-white border border-slate-200/80 hover:border-cyan-400 hover:shadow-lg transition-all duration-300 cursor-pointer"
-                    >
-                      <div>
-                        {item.badge && (
-                          <span className="inline-block px-3 py-0.5 rounded-full text-xs font-bold bg-teal-100 text-teal-800 border border-teal-200 mb-3">
-                            {item.badge}
-                          </span>
-                        )}
-                        <h5 className="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors mb-2 leading-snug">
-                          {item.titulo}
-                        </h5>
-                        <p className="text-slate-600 text-sm line-clamp-3 leading-relaxed mb-4">
-                          {item.desc}
-                        </p>
-                      </div>
-                      <div className="pt-3 border-t border-slate-200/60 flex items-center justify-between text-blue-600 text-xs font-bold">
-                        <span>Ver proyecto completo</span>
-                        <ChevronRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="p-8 text-center bg-slate-50 rounded-2xl text-slate-500 text-sm italic">
-                  Actualmente los proyectos de esta línea se encuentran en proceso de documentación activa.
+              {/* Enfoque metodológico completo */}
+              {activeLinea.enfoque && (
+                <div className="bg-slate-50 rounded-2xl p-6 sm:p-8 border border-slate-200/80 mb-10">
+                  <h4 className="text-sm font-bold uppercase tracking-wider text-slate-800 mb-3 flex items-center gap-2">
+                    <Target size={18} className="text-[#2f9fb3]" /> Alcance y Enfoque Metodológico
+                  </h4>
+                  <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                    {activeLinea.enfoque}
+                  </p>
                 </div>
               )}
+
+              {/* Proyectos asociados a esta línea */}
+              <div>
+                <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-100">
+                  <h4 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <Atom size={20} className="text-[#2f9fb3]" /> Proyectos Asociados a esta Línea ({associatedProjects.length})
+                  </h4>
+                  <span className="text-xs text-slate-500">Haz clic en un proyecto para ver sus detalles</span>
+                </div>
+
+                {associatedProjects.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {associatedProjects.map((item, idx) => (
+                      <div
+                        key={item.id || idx}
+                        onClick={() => onSelectProject(item)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelectProject(item); } }}
+                        className="group flex flex-col justify-between p-6 rounded-2xl bg-slate-50/80 hover:bg-white border border-slate-200/80 hover:border-cyan-400 hover:shadow-lg transition-all duration-300 cursor-pointer"
+                      >
+                        <div>
+                          {item.badge && (
+                            <span className="inline-block px-3 py-0.5 rounded-full text-xs font-bold bg-teal-100 text-teal-800 border border-teal-200 mb-3">
+                              {item.badge}
+                            </span>
+                          )}
+                          <h5 className="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors mb-2 leading-snug">
+                            {item.titulo}
+                          </h5>
+                          <p className="text-slate-600 text-sm line-clamp-3 leading-relaxed mb-4">
+                            {item.desc}
+                          </p>
+                        </div>
+                        <div className="pt-3 border-t border-slate-200/60 flex items-center justify-between text-blue-600 text-xs font-bold">
+                          <span>Ver proyecto completo</span>
+                          <ChevronRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="p-8 text-center bg-slate-50 rounded-2xl text-slate-500 text-sm italic">
+                    Actualmente los proyectos de esta línea se encuentran en proceso de documentación activa.
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* OTRAS LÍNEAS DE INVESTIGACIÓN (En pequeño para navegar entre ellas) */}
+            <div className="mb-16">
+              <div className="text-center max-w-2xl mx-auto mb-8">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">
+                  Explorar otras áreas
+                </span>
+                <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                  Otras Líneas de Investigación
+                </h3>
+                <p className="text-sm text-slate-500 mt-1">
+                  Selecciona cualquiera de las otras líneas para consultar su información completa y proyectos.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {otherLineas.map((linea) => (
+                  <div
+                    key={linea.id}
+                    onClick={() => onSelectLinea(linea.id)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelectLinea(linea.id); } }}
+                    className="bg-white p-6 rounded-2xl border border-slate-200/80 hover:border-[#2f9fb3] shadow-xs hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col justify-between group hover:-translate-y-1"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-600 group-hover:bg-cyan-50 group-hover:text-cyan-700 transition-colors">
+                          Línea {linea.numero}
+                        </span>
+                        <div className="w-9 h-9 rounded-xl bg-slate-50 group-hover:bg-cyan-50 flex items-center justify-center border border-slate-100 group-hover:border-cyan-100 transition-colors">
+                          {smallIconMap[linea.id] || <Cpu size={16} />}
+                        </div>
+                      </div>
+                      <h4 className="font-bold text-slate-900 text-base mb-2 group-hover:text-[#2f9fb3] transition-colors leading-snug">
+                        {linea.titulo}
+                      </h4>
+                      <p className="text-slate-500 text-xs line-clamp-3 leading-relaxed mb-4">
+                        {linea.descripcion}
+                      </p>
+                    </div>
+                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#2f9fb3]">
+                      <span>Ver línea completa</span>
+                      <ChevronRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        ) : (
+          /* MODO 2: VISTA GENERAL (DESDE EL MENÚ INVESTIGACIÓN O DESDE ¿QUÉ HACEMOS?) -> LAS 4 DEL MISMO TAMAÑO */
+          <div className="mb-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+              {lineasInvestigacion.map((linea) => {
+                const projsLinea = proyectos.filter(
+                  (p) => p.lineaId === linea.id || (p.linea && p.linea.toLowerCase().includes(linea.titulo?.toLowerCase().split(' ')[0]))
+                );
+
+                return (
+                  <div
+                    key={linea.id}
+                    className="bg-white rounded-3xl p-8 border border-slate-200/90 shadow-xs hover:shadow-xl hover:border-[#2f9fb3] transition-all duration-300 flex flex-col justify-between group"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between gap-3 mb-5">
+                        <span className="px-3.5 py-1 rounded-full text-xs font-bold bg-teal-50 text-teal-800 border border-teal-200">
+                          {linea.badge || `Línea ${linea.numero}`}
+                        </span>
+                        <span className="text-2xl font-black text-slate-300 group-hover:text-[#2f9fb3] transition-colors">
+                          {linea.numero}
+                        </span>
+                      </div>
+
+                      <div className="flex items-start gap-4 mb-4">
+                        <div className="w-12 h-12 rounded-2xl bg-cyan-50 border border-cyan-100 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                          {smallIconMap[linea.id] || <Cpu size={22} className="text-[#2f9fb3]" />}
+                        </div>
+                        <h3 className="text-xl font-bold text-slate-900 group-hover:text-[#2f9fb3] transition-colors leading-snug">
+                          {linea.nombreCompleto || linea.titulo}
+                        </h3>
+                      </div>
+
+                      <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                        {linea.descripcion}
+                      </p>
+
+                      {/* Cantidad de proyectos asociados */}
+                      <div className="mb-6 flex items-center gap-2 text-xs font-semibold text-slate-500">
+                        <Atom size={15} className="text-[#2f9fb3]" />
+                        <span>{projsLinea.length} {projsLinea.length === 1 ? 'proyecto asociado' : 'proyectos asociados'}</span>
+                      </div>
+                    </div>
+
+                    <div className="pt-5 border-t border-slate-100 mt-auto flex items-center justify-between">
+                      <button
+                        type="button"
+                        onClick={() => onSelectLinea(linea.id)}
+                        className="inline-flex items-center gap-2 text-cyan-700 hover:text-cyan-800 font-bold text-sm cursor-pointer group/btn"
+                      >
+                        <span>Explorar línea y proyectos</span>
+                        <ChevronRight size={16} className="transform group-hover/btn:translate-x-1 transition-transform" />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
-
-        {/* OTRAS LÍNEAS DE INVESTIGACIÓN (En pequeño para navegar entre ellas) */}
-        <div className="mb-16">
-          <div className="text-center max-w-2xl mx-auto mb-8">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">
-              Explorar otras áreas
-            </span>
-            <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-              Otras Líneas de Investigación
-            </h3>
-            <p className="text-sm text-slate-500 mt-1">
-              Selecciona cualquiera de las otras líneas para consultar su información completa y proyectos.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {otherLineas.map((linea) => (
-              <div
-                key={linea.id}
-                onClick={() => onSelectLinea(linea.id)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelectLinea(linea.id); } }}
-                className="bg-white p-6 rounded-2xl border border-slate-200/80 hover:border-[#2f9fb3] shadow-xs hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col justify-between group hover:-translate-y-1"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-600 group-hover:bg-cyan-50 group-hover:text-cyan-700 transition-colors">
-                      Línea {linea.numero}
-                    </span>
-                    <div className="w-9 h-9 rounded-xl bg-slate-50 group-hover:bg-cyan-50 flex items-center justify-center border border-slate-100 group-hover:border-cyan-100 transition-colors">
-                      {smallIconMap[linea.id] || <Cpu size={16} />}
-                    </div>
-                  </div>
-                  <h4 className="font-bold text-slate-900 text-base mb-2 group-hover:text-[#2f9fb3] transition-colors leading-snug">
-                    {linea.titulo}
-                  </h4>
-                  <p className="text-slate-500 text-xs line-clamp-3 leading-relaxed mb-4">
-                    {linea.descripcion}
-                  </p>
-                </div>
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#2f9fb3]">
-                  <span>Ver línea completa</span>
-                  <ChevronRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
 
         {/* Articulación Científica de las Líneas */}
         {institutionalInfo?.articulacionLineas && (
@@ -1385,12 +1478,12 @@ function AppContent() {
     }
     if (pathKey === 'investigaciones' || pathKey === 'investigacion' || pathKey === 'lineas-investigacion') {
       const lineaParam = searchParams.get('linea');
-      return { view: 'research-list', id: lineaParam ? parseInt(lineaParam, 10) : 1, section: null };
+      return { view: 'research-list', id: lineaParam ? parseInt(lineaParam, 10) : null, section: null };
     }
     if (pathKey.startsWith('linea/')) {
       const rawId = pathKey.replace('linea/', '');
       const numId = parseInt(rawId, 10);
-      return { view: 'research-list', id: isNaN(numId) ? 1 : numId, section: null };
+      return { view: 'research-list', id: isNaN(numId) ? null : numId, section: null };
     }
     if (pathKey.startsWith('investigacion/')) {
       const rawId = pathKey.replace('investigacion/', '');
@@ -1745,8 +1838,9 @@ function AppContent() {
         <ResearchView
           lineasInvestigacion={lineasInvestigacion}
           proyectos={proyectos}
-          selectedLineaId={route.id || 1}
+          selectedLineaId={route.id}
           onSelectLinea={(id) => navigateTo('research-list', id)}
+          onShowAllLineas={() => navigateTo('research-list')}
           onSelectProject={(proj) => handleViewResearch(proj)}
           onBack={() => navigateTo('landing')}
           institutionalInfo={institutionalInfo}
@@ -1774,11 +1868,11 @@ function AppContent() {
               {/* Recuadro principal con borde #2f9fb3 y carrusel diagonal */}
               <div className="bg-white rounded-3xl border-2 border-[#2f9fb3] shadow-sm mb-14 overflow-hidden flex flex-col lg:flex-row relative">
                 {/* Texto a la izquierda */}
-                <div className="p-8 sm:p-10 lg:w-7/12 flex flex-col justify-center relative z-10">
-                  <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-normal mb-5">
+                <div className="p-8 sm:p-10 lg:p-12 lg:w-7/12 flex flex-col justify-center relative z-10">
+                  <p className="text-lg sm:text-xl lg:text-[19px] xl:text-[20px] text-slate-700 leading-relaxed font-normal mb-6">
                     En el <span className="font-bold text-[#1f7a8c]">Laboratorio de Biomédica Traslacional (LaTSIB)</span> de la Universidad Tecnológica Metropolitana (UTEM), unimos la ingeniería, la ciencia de datos y la medicina para transformar datos biológicos complejos en soluciones de salud reales y no invasivas. Desarrollamos investigación aplicada en el área de la ingeniería biomédica, utilizando señales, imágenes y datos para comprender fenómenos biológicos y aportar al desarrollo de nuevas herramientas para la salud.
                   </p>
-                  <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+                  <p className="text-base sm:text-lg lg:text-[17px] xl:text-[18px] text-slate-600 leading-relaxed font-normal">
                     Trabajamos en el procesamiento y análisis de señales e imágenes biomédicas, el estudio de la respuesta neurovascular mediante tecnologías como fNIRS, la modelación y simulación de fenómenos fisiológicos, y el desarrollo de soluciones inteligentes que integran tecnologías como inteligencia artificial y aprendizaje automático. Nuestra investigación busca conectar la ingeniería con las necesidades reales de las personas, generando conocimiento, herramientas y soluciones con potencial de aplicación clínica y tecnológica.
                   </p>
                 </div>
@@ -1826,6 +1920,7 @@ function AppContent() {
                         { url: misionImg1, descripcion: "Mediciones y experimentación en laboratorio" },
                         { url: misionImg2, descripcion: "Sensores y señales biomédicas" }
                       ]}
+                      fitMode="contain"
                       autoSlide={true}
                       autoSlideInterval={3800}
                     />
@@ -1855,6 +1950,7 @@ function AppContent() {
                         { url: visionImg1, descripcion: "Evaluación clínica y protocolos biomédicos" },
                         { url: visionImg2, descripcion: "Reunión de equipo e investigación colaborativa" }
                       ]}
+                      fitMode="contain"
                       autoSlide={true}
                       autoSlideInterval={4200}
                     />
